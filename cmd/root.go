@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"gshop/internal/config"
-	"gshop/internal/postgresql"
+	"gshop/internal/gorm"
 	"gshop/sdk"
 	"log"
 	"os"
@@ -22,7 +22,7 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
-		db, err := postgresql.InitDb()
+		db, err := gorm.InitDb()
 
 		if err != nil {
 			log.Fatalf("%s", err.Error())

@@ -1,9 +1,7 @@
 package sdk
 
-import (
-	"database/sql"
-)
+import "gorm.io/gorm"
 
 type ServiceConfig struct {
-	*sql.DB
+	*gorm.DB
 }
