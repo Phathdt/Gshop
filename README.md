@@ -14,6 +14,7 @@
 - **Go 1.17**: *Leverage the standard libraries as much as possible*
 - **PostgreSQL**: *RDBMS of choice because of faster read due to its indexing model and safer transaction with better isolation levels handling*
 - **Fiber**: *Fast and have respect for native net/http API*
+- **Gorm**: *The fantastic ORM library for Golang*
 - **JWT Token**: *Also implemented to demonstrate the decoupility*
 - **Golang-Migrate**: *Efficient schema generating, up/down migrating*
 - **Docker** + **Docker-Compose**: *Containerization, what else to say ...*
