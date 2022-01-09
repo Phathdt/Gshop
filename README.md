@@ -1,10 +1,12 @@
-## Requirements and Bonuses
+## Requirements
 1. [X] Implement a Rest API with CRUD functionality.
 2. [X] Database: PostgreSQL.
 3. [X] Set up service with docker compse.
 4. [X] Authen with jwt
 5. [X] generate query with gorm
 6. [X] Private and public routes
+7. [ ] API Document
+8. [ ] Redis cache
 
 
 ## Technology Stack
