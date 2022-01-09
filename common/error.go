@@ -6,7 +6,7 @@ import (
 
 var (
 	// users
-	ErrExistedUse       = sdkcm.CustomError("ErrExistedUser", "user already exists")
+	ErrExistedUser      = sdkcm.CustomError("ErrExistedUser", "user already exists")
 	ErrCreateUser       = sdkcm.CustomError("ErrCreateUser", "error when create user")
 	ErrPasswordNotMatch = sdkcm.CustomError("ErrPasswordNotMatch", "password not match")
 
