@@ -33,22 +33,8 @@ func Recover(sc *sdk.ServiceContext) fiber.Handler {
 					var appErr sdkcm.AppError
 
 					if fieldErrors, ok := err.(validator.ValidationErrors); ok {
-						fieldError := fieldErrors[0]
 
-						var message string
-						//TODO: add more tag
-						switch fieldError.Tag() {
-						case "required":
-							message = fmt.Sprintf("%s is a required field", fieldError.Field())
-						case "max":
-							message = fmt.Sprintf("%s must be a maximum of %s in length", fieldError.Field(), fieldError.Param())
-						case "min":
-							message = fmt.Sprintf("%s must be a minimum of %s in length", fieldError.Field(), fieldError.Param())
-						case "url":
-							message = fmt.Sprintf("%s must be a valid URL", fieldError.Field())
-						default:
-							message = fmt.Sprintf("something wrong on %s; %s", fieldError.Field(), fieldError.Tag())
-						}
+						message := getMessageError(fieldErrors)
 
 						err := sdkcm.CustomError("ValidateError", message)
 
@@ -83,5 +69,23 @@ func Recover(sc *sdk.ServiceContext) fiber.Handler {
 
 		// Return err if exist, else move to next handler
 		return c.Next()
+	}
+}
+
+func getMessageError(fieldErrors []validator.FieldError) string {
+	fieldError := fieldErrors[0]
+
+	//TODO: add more tag
+	switch fieldError.Tag() {
+	case "required":
+		return fmt.Sprintf("%s is a required field", fieldError.Field())
+	case "max":
+		return fmt.Sprintf("%s must be a maximum of %s in length", fieldError.Field(), fieldError.Param())
+	case "min":
+		return fmt.Sprintf("%s must be a minimum of %s in length", fieldError.Field(), fieldError.Param())
+	case "url":
+		return fmt.Sprintf("%s must be a valid URL", fieldError.Field())
+	default:
+		return fmt.Sprintf("something wrong on %s; %s", fieldError.Field(), fieldError.Tag())
 	}
 }
