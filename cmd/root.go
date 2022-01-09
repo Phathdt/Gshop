@@ -3,11 +3,13 @@ package cmd
 import (
 	"log"
 
-	_ "github.com/lib/pq"
-	"github.com/spf13/cobra"
 	"gshop/internal/config"
 	"gshop/internal/gorm"
 	"gshop/sdk"
+	"gshop/sdk/logger"
+
+	_ "github.com/lib/pq"
+	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
@@ -20,6 +22,8 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
+		logger.InitServLogger(true)
+
 		db, err := gorm.InitDb()
 
 		if err != nil {
@@ -28,7 +32,7 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
-		sc := sdk.NewServiceContext(db)
+		sc := sdk.New(db)
 
 		server := NewServer(sc)
 

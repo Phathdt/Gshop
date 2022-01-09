@@ -8,17 +8,17 @@ import (
 	"gshop/sdk/sdkcm"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/sirupsen/logrus"
 )
 
 func Recover(sc *sdk.ServiceContext) fiber.Handler {
+	logger := sc.Logger("service")
 	// Return new handler
 	return func(c *fiber.Ctx) (err error) {
 		defer func() {
 			if err := recover(); err != nil {
 				if appErr, ok := err.(sdkcm.AppError); ok {
 					appErr.RootCause = appErr.RootError()
-					logrus.Errorln(appErr.RootCause)
+					logger.Errorln(appErr.RootCause)
 
 					if appErr.RootCause != nil {
 						appErr.Log = appErr.RootCause.Error()
@@ -33,7 +33,7 @@ func Recover(sc *sdk.ServiceContext) fiber.Handler {
 
 					if e, ok := err.(error); ok {
 						appErr = sdkcm.AppError{StatusCode: http.StatusInternalServerError, Message: "internal server error"}
-						logrus.Errorln(e.Error())
+						logger.Errorln(e.Error())
 
 						c.Status(appErr.StatusCode).JSON(&fiber.Map{
 							"error": appErr,
@@ -41,7 +41,7 @@ func Recover(sc *sdk.ServiceContext) fiber.Handler {
 
 					} else {
 						appErr = sdkcm.AppError{StatusCode: http.StatusInternalServerError, Message: fmt.Sprintf("%s", err)}
-						logrus.Errorln(fmt.Sprintf("%s", err))
+						logger.Errorln(fmt.Sprintf("%s", err))
 
 						c.Status(appErr.StatusCode).JSON(&fiber.Map{
 							"error": appErr,
