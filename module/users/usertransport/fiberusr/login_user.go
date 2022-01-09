@@ -1,7 +1,7 @@
 package fiberusr
 
 import (
-	"fmt"
+	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 	"gshop/common"
@@ -9,6 +9,7 @@ import (
 	"gshop/module/users/usrrepo"
 	"gshop/module/users/usrusecase"
 	"gshop/sdk"
+	"gshop/sdk/sdkcm"
 )
 
 func LoginUser(sc *sdk.ServiceContext) fiber.Handler {
@@ -27,8 +28,6 @@ func LoginUser(sc *sdk.ServiceContext) fiber.Handler {
 
 		user, err := uc.LoginUser(c.Context(), &input)
 		if err != nil {
-			fmt.Println(">>>>>>>>")
-			fmt.Println(err)
 			panic(err)
 		}
 
@@ -37,8 +36,8 @@ func LoginUser(sc *sdk.ServiceContext) fiber.Handler {
 			panic(err)
 		}
 
-		return c.Status(200).JSON(&fiber.Map{
+		return c.Status(http.StatusOK).JSON(sdkcm.SimpleSuccessResponse(&fiber.Map{
 			"token": token,
-		})
+		}))
 	}
 }

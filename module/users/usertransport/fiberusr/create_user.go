@@ -1,12 +1,15 @@
 package fiberusr
 
 import (
+	"net/http"
+
 	"github.com/gofiber/fiber/v2"
 	"gshop/common"
 	"gshop/module/users/usrmodel"
 	"gshop/module/users/usrrepo"
 	"gshop/module/users/usrusecase"
 	"gshop/sdk"
+	"gshop/sdk/sdkcm"
 )
 
 func CreateUser(sc *sdk.ServiceContext) fiber.Handler {
@@ -33,8 +36,8 @@ func CreateUser(sc *sdk.ServiceContext) fiber.Handler {
 			panic(err)
 		}
 
-		return c.Status(200).JSON(&fiber.Map{
+		return c.Status(http.StatusOK).JSON(sdkcm.SimpleSuccessResponse(&fiber.Map{
 			"token": token,
-		})
+		}))
 	}
 }
