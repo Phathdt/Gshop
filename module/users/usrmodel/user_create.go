@@ -1,11 +1,13 @@
 package usrmodel
 
-import "gshop/sdk/sdkcm"
+import (
+	"gshop/sdk/sdkcm"
+)
 
 type UserCreate struct {
 	sdkcm.SQLModel `json:",inline"`
-	Username       string `json:"username" form:"username" gorm:"username"`
-	Password       string `json:"password" form:"password" gorm:"password"`
+	Username       string `json:"username" form:"username" gorm:"username" validate:"required,min=6,max=32"`
+	Password       string `json:"password" form:"password" gorm:"password" validate:"required,min=6,max=32"`
 }
 
 func (UserCreate) TableName() string {

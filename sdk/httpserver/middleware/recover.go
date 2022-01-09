@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"gshop/sdk"
 	"gshop/sdk/sdkcm"
 
@@ -31,7 +32,35 @@ func Recover(sc *sdk.ServiceContext) fiber.Handler {
 				} else {
 					var appErr sdkcm.AppError
 
-					if e, ok := err.(error); ok {
+					if fieldErrors, ok := err.(validator.ValidationErrors); ok {
+						fieldError := fieldErrors[0]
+
+						var message string
+						//TODO: add more tag
+						switch fieldError.Tag() {
+						case "required":
+							message = fmt.Sprintf("%s is a required field", fieldError.Field())
+						case "max":
+							message = fmt.Sprintf("%s must be a maximum of %s in length", fieldError.Field(), fieldError.Param())
+						case "min":
+							message = fmt.Sprintf("%s must be a minimum of %s in length", fieldError.Field(), fieldError.Param())
+						case "url":
+							message = fmt.Sprintf("%s must be a valid URL", fieldError.Field())
+						default:
+							message = fmt.Sprintf("something wrong on %s; %s", fieldError.Field(), fieldError.Tag())
+						}
+
+						err := sdkcm.CustomError("ValidateError", message)
+
+						appErr := sdkcm.ErrCustom(err, err)
+
+						logger.Errorln(err.Error())
+
+						c.Status(appErr.StatusCode).JSON(&fiber.Map{
+							"error": appErr,
+						})
+
+					} else if e, ok := err.(error); ok {
 						appErr = sdkcm.AppError{StatusCode: http.StatusInternalServerError, Message: "internal server error"}
 						logger.Errorln(e.Error())
 

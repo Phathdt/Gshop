@@ -1,6 +1,8 @@
 package common
 
-import "gshop/sdk/sdkcm"
+import (
+	"gshop/sdk/sdkcm"
+)
 
 var (
 	// users

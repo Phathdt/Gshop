@@ -12,8 +12,11 @@ import (
 func CreateUser(sc *sdk.ServiceContext) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var input usrmodel.UserCreate
-		err := c.BodyParser(&input)
-		if err != nil {
+		if err := c.BodyParser(&input); err != nil {
+			panic(err)
+		}
+
+		if err := common.Validate(input); err != nil {
 			panic(err)
 		}
 
