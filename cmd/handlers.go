@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/spf13/viper"
+	"gshop/module/products/producttransport/fiberproduct"
 	"gshop/module/users/usertransport/fiberusr"
 	"gshop/sdk"
 	"gshop/sdk/httpserver/middleware"
@@ -45,6 +46,11 @@ func (s *server) Run() error {
 		{
 			users.Post("/signup", fiberusr.CreateUser(s.SC))
 			users.Post("/login", fiberusr.LoginUser(s.SC))
+		}
+
+		products := v1.Group("/products")
+		{
+			products.Get("/", fiberproduct.ListProduct(s.SC))
 		}
 	}
 
