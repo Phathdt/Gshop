@@ -23,6 +23,7 @@
 
 ## Booting Up
 
+**Docker**
 ```bash
 docker-compose build
 
@@ -30,6 +31,28 @@ docker-compose up
 
 # docker-compose down
 ```
+
+**Local**
+```bash
+cp .env.sample .env
+
+# insert some data in env like database url, debug level
+
+source .env
+
+# install migrate
+brew install golang-migrate
+
+# migrate
+make migrate-up
+
+# run app
+make run
+
+# enjoy
+
+```
+
 
 ## Todos
 - add manifest K8s
