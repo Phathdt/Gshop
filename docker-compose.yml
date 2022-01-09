@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  db:
+    image: bitnami/postgresql:14.1.0
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRESQL_USERNAME: postgres
+      POSTGRESQL_PASSWORD: 123123123
+      POSTGRESQL_DATABASE: gshop
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  migrate:
+    image: migrate/migrate:v4.15.1
+    volumes:
+      - ./migrations:/migrations
+    command: ["-path", "/migrations", "-database",  "postgresql://postgres:123123123@db:5432/gshop?sslmode=disable", "up"]
+    depends_on:
+      db:
+        condition: service_healthy
+  backend:
+    build: .
+    environment:
+      PORT: 3000
+      SIGNING_KEY: ANOTHER_SIGNING_KEY
+      TOKEN_TTL: 86400
+      DATABASE_URL: postgresql://postgres:123123123@db:5432/gshop?sslmode=disable
+      LOG_LEVEL: DEBUG
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - 3000:3000
