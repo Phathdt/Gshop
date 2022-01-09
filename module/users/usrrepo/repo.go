@@ -3,6 +3,7 @@ package usrrepo
 import (
 	"context"
 
+	"gshop/common"
 	"gshop/module/users/usrmodel"
 	"gshop/sdk/sdkcm"
 
@@ -14,6 +15,8 @@ type userRepo struct {
 }
 
 func (u userRepo) CreateUser(ctx context.Context, input *usrmodel.UserCreate) error {
+	input.Password = common.GetHash([]byte(input.Password))
+
 	if err := u.DB.Create(&input).Error; err != nil {
 		return sdkcm.ErrDB(err)
 	}

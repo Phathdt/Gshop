@@ -3,13 +3,14 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	jwtware "github.com/gofiber/jwt/v2"
+
+	"github.com/spf13/viper"
 	"gshop/module/users/usertransport/fiberusr"
 	"gshop/sdk"
 	"gshop/sdk/httpserver/middleware"
-
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/spf13/viper"
 )
 
 type server struct {
@@ -41,9 +42,22 @@ func (s *server) Run() error {
 
 	v1 := app.Group("/v1")
 	{
-		v1.Get("/users", fiberusr.GetUserByUsername(s.SC))
-		v1.Post("/users", fiberusr.CreateUser(s.SC))
+		users := v1.Group("/users")
+		{
+			users.Post("/signup", fiberusr.CreateUser(s.SC))
+			users.Post("/login", fiberusr.LoginUser(s.SC))
+		}
 	}
+
+	// JWT Middleware
+	app.Use(jwtware.New(jwtware.Config{
+		ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Unauthorized",
+			})
+		},
+		SigningKey: []byte(viper.GetString("SIGNING_KEY")),
+	}))
 
 	addr := fmt.Sprintf(":%d", viper.GetInt("PORT"))
 	if err := app.Listen(addr); err != nil {

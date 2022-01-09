@@ -33,7 +33,6 @@ func Recover(sc *sdk.ServiceContext) fiber.Handler {
 					var appErr sdkcm.AppError
 
 					if fieldErrors, ok := err.(validator.ValidationErrors); ok {
-
 						message := getMessageError(fieldErrors)
 
 						err := sdkcm.CustomError("ValidateError", message)
