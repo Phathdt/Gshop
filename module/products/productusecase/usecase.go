@@ -13,7 +13,7 @@ type productUseCase struct {
 }
 
 func (p productUseCase) ListProduct(ctx context.Context, filter *productmodel.ListFilter, paging *sdkcm.Paging) ([]productmodel.Product, error) {
-	return p.Repo.ListProduct(ctx, filter, paging)
+	return p.Repo.ListProduct(ctx, filter, paging, "Category")
 }
 
 func NewProductUseCase(repo products.ProductRepo) *productUseCase {

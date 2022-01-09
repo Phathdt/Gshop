@@ -5,7 +5,7 @@ import (
 )
 
 type ListFilter struct {
-	Category *string `json:"category" form:"category""`
+	CategoryId *uint `query:"category_id" json:"category_id"`
 }
 
 type ListParam struct {

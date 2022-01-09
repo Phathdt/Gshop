@@ -12,5 +12,5 @@ type ProductUseCase interface {
 }
 
 type ProductRepo interface {
-	ListProduct(ctx context.Context, filter *productmodel.ListFilter, paging *sdkcm.Paging) ([]productmodel.Product, error)
+	ListProduct(ctx context.Context, filter *productmodel.ListFilter, paging *sdkcm.Paging, moreKeys ...string) ([]productmodel.Product, error)
 }

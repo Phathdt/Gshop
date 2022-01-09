@@ -12,19 +12,25 @@ type productRepo struct {
 	DB *gorm.DB
 }
 
-func (p productRepo) ListProduct(ctx context.Context, filter *productmodel.ListFilter, paging *sdkcm.Paging) ([]productmodel.Product, error) {
+func (p productRepo) ListProduct(ctx context.Context, filter *productmodel.ListFilter, paging *sdkcm.Paging, moreKeys ...string) ([]productmodel.Product, error) {
 	var data []productmodel.Product
 
 	db := p.DB.Table(productmodel.Product{}.TableName())
 
 	if f := filter; f != nil {
-		if v := f.Category; v != nil {
-			db = db.Where("category = ?", v)
+		if v := f.CategoryId; v != nil {
+			db = db.Where("category_id = ?", v)
 		}
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, sdkcm.ErrDB(err)
+	}
+
+	if len(moreKeys) > 0 {
+		for _, k := range moreKeys {
+			db = db.Preload(k)
+		}
 	}
 
 	db = db.Limit(paging.Limit).Order("id desc")
