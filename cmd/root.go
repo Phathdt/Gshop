@@ -1,20 +1,18 @@
 package cmd
 
 import (
-	"gshop/internal/config"
-	"gshop/internal/gorm"
-	"gshop/sdk"
 	"log"
-	"os"
 
 	_ "github.com/lib/pq"
 	"github.com/spf13/cobra"
+	"gshop/internal/config"
+	"gshop/internal/gorm"
+	"gshop/sdk"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "gshop",
-	Short: "A brief description of your application",
-
+	Use:   "Gshop",
+	Short: "Gshop API",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := config.Init(); err != nil {
 			log.Fatalf("%s", err.Error())
@@ -30,11 +28,9 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
-		sc := sdk.ServiceConfig{
-			DB: db,
-		}
+		sc := sdk.NewServiceContext(db)
 
-		server := NewServer(&sc)
+		server := NewServer(sc)
 
 		if err = server.Run(); err != nil {
 			log.Fatalf("%s", err.Error())
@@ -49,7 +45,5 @@ var rootCmd = &cobra.Command{
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatal(err)
-
-		os.Exit(1)
 	}
 }

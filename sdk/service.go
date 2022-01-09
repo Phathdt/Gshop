@@ -1,7 +1,13 @@
 package sdk
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
-type ServiceConfig struct {
+type ServiceContext struct {
 	*gorm.DB
+}
+
+func NewServiceContext(DB *gorm.DB) *ServiceContext {
+	return &ServiceContext{DB: DB}
 }

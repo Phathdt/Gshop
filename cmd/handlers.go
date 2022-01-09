@@ -2,19 +2,21 @@ package cmd
 
 import (
 	"fmt"
+
+	"gshop/module/users/usertransport/fiberusr"
 	"gshop/sdk"
+	"gshop/sdk/httpserver/middleware"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/spf13/viper"
 )
 
 type server struct {
-	SC *sdk.ServiceConfig
+	SC *sdk.ServiceContext
 }
 
-func NewServer(sc *sdk.ServiceConfig) *server {
+func NewServer(sc *sdk.ServiceContext) *server {
 	return &server{SC: sc}
 }
 
@@ -31,10 +33,13 @@ func (s *server) Run() error {
 	app.Use(logger.New(logger.Config{
 		Format: `{"ip":${ip}, "timestamp":"${time}", "status":${status}, "latency":"${latency}", "method":"${method}", "path":"${path}"}` + "\n",
 	}))
-	app.Use(recover.New())
+
+	app.Use(middleware.Recover(s.SC))
 
 	app.Get("/", ping())
 	app.Get("/ping", ping())
+
+	app.Get("/users", fiberusr.GetUserByUsername(s.SC))
 
 	addr := fmt.Sprintf(":%d", viper.GetInt("PORT"))
 	err := app.Listen(addr)

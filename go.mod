@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/gofiber/fiber/v2 v2.24.0
 	github.com/lib/pq v1.10.4
+	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.3.0
 	github.com/spf13/viper v1.10.1
 	gorm.io/driver/postgres v1.2.3
