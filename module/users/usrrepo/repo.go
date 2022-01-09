@@ -14,6 +14,19 @@ type userRepo struct {
 	DB *gorm.DB
 }
 
+func (u userRepo) GetUser(ctx context.Context, id uint32) (*usrmodel.User, error) {
+	var user usrmodel.User
+
+	if err := u.DB.Where("id = ?", id).First(&user).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, sdkcm.ErrDataNotFound
+		}
+		return nil, sdkcm.ErrDB(err)
+	}
+
+	return &user, nil
+}
+
 func (u userRepo) CreateUser(ctx context.Context, input *usrmodel.UserCreate) error {
 	input.Password = common.GetHash([]byte(input.Password))
 

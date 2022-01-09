@@ -6,7 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	jwtware "github.com/gofiber/jwt/v2"
-
 	"github.com/spf13/viper"
 	"gshop/module/users/usertransport/fiberusr"
 	"gshop/sdk"
@@ -58,6 +57,8 @@ func (s *server) Run() error {
 		},
 		SigningKey: []byte(viper.GetString("SIGNING_KEY")),
 	}))
+
+	app.Use(middleware.SetCurrentUser(s.SC))
 
 	addr := fmt.Sprintf(":%d", viper.GetInt("PORT"))
 	if err := app.Listen(addr); err != nil {

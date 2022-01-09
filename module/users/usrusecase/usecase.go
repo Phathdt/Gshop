@@ -14,6 +14,10 @@ type userUseCase struct {
 	Repo users.UserRepo
 }
 
+func (u userUseCase) GetUser(ctx context.Context, id uint32) (*usrmodel.User, error) {
+	return u.Repo.GetUser(ctx, id)
+}
+
 func (u userUseCase) LoginUser(ctx context.Context, input *usrmodel.UserLogin) (*usrmodel.User, error) {
 	user, err := u.Repo.GetUserByUsername(ctx, input.Username)
 	if err != nil {

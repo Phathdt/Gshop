@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go/v4"
+	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
 	"gshop/module/users/usrmodel"
@@ -29,4 +30,10 @@ func GetHash(pwd []byte) string {
 	}
 
 	return string(hash)
+}
+
+func GetCurrentUser(c *fiber.Ctx) *usrmodel.User {
+	currentUser := c.Locals("currentUser").(*usrmodel.User)
+
+	return currentUser
 }
