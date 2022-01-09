@@ -23,7 +23,7 @@ func NewAddCartUseCase(repo carts.CartRepo, productRepo products.ProductRepo) *c
 }
 
 func (c cartUseCase) MyCart(ctx context.Context, userId uint32) (*cartmodel.Cart, error) {
-	cart, _ := c.Repo.MyCart(ctx, userId)
+	cart, _ := c.Repo.MyCart(ctx, userId, "CartProduct.Product")
 
 	if cart != nil {
 		return cart, nil

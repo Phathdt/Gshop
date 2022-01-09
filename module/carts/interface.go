@@ -13,7 +13,7 @@ type CartUseCase interface {
 }
 
 type CartRepo interface {
-	MyCart(ctx context.Context, userId uint32) (*cartmodel.Cart, error)
+	MyCart(ctx context.Context, userId uint32, moreKeys ...string) (*cartmodel.Cart, error)
 	DeleteCart(ctx context.Context, cartId uint32) error
 	CreateCart(ctx context.Context, userId uint32) error
 	DeleteCartProduct(ctx context.Context, cartId, productId uint32) error

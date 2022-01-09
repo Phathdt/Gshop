@@ -57,10 +57,16 @@ func (c cartRepo) CreateCart(ctx context.Context, userId uint32) error {
 	return nil
 }
 
-func (c cartRepo) MyCart(ctx context.Context, userId uint32) (*cartmodel.Cart, error) {
+func (c cartRepo) MyCart(ctx context.Context, userId uint32, moreKeys ...string) (*cartmodel.Cart, error) {
 	var cart cartmodel.Cart
 
-	db := c.DB.Table(cartmodel.Cart{}.TableName()).Preload("CartProduct")
+	db := c.DB.Table(cartmodel.Cart{}.TableName())
+
+	if len(moreKeys) > 0 {
+		for _, k := range moreKeys {
+			db = db.Preload(k)
+		}
+	}
 
 	if err := db.Where("user_id = ?", userId).First(&cart).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
