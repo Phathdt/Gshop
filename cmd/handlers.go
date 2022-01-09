@@ -10,6 +10,7 @@ import (
 	"gshop/module/carts/carttransport/fibercart"
 	"gshop/module/products/producttransport/fiberproduct"
 	"gshop/module/users/usertransport/fiberusr"
+	middleware2 "gshop/module/users/usertransport/middleware"
 	"gshop/sdk"
 	"gshop/sdk/httpserver/middleware"
 )
@@ -65,7 +66,7 @@ func (s *server) Run() error {
 		SigningKey: []byte(viper.GetString("SIGNING_KEY")),
 	}))
 
-	app.Use(middleware.SetCurrentUser(s.SC))
+	app.Use(middleware2.SetCurrentUser(s.SC))
 
 	authV1 := app.Group("/v1")
 	{
