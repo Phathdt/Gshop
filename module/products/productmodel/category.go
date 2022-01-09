@@ -1,4 +1,4 @@
-package categorymodel
+package productmodel
 
 import "gshop/sdk/sdkcm"
 
