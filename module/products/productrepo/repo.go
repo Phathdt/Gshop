@@ -12,6 +12,19 @@ type productRepo struct {
 	DB *gorm.DB
 }
 
+func (p productRepo) GetProduct(ctx context.Context, id uint32) (*productmodel.Product, error) {
+	var product productmodel.Product
+
+	if err := p.DB.Where("id = ? ", id).First(&product).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, sdkcm.ErrDataNotFound
+		}
+		return nil, sdkcm.ErrDB(err)
+	}
+
+	return &product, nil
+}
+
 func (p productRepo) ListProduct(ctx context.Context, filter *productmodel.ListFilter, paging *sdkcm.Paging, moreKeys ...string) ([]productmodel.Product, error) {
 	var data []productmodel.Product
 

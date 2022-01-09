@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/spf13/viper"
+	"gshop/module/carts/carttransport/fibercart"
 	"gshop/module/products/producttransport/fiberproduct"
 	"gshop/module/users/usertransport/fiberusr"
 	"gshop/sdk"
@@ -65,6 +66,16 @@ func (s *server) Run() error {
 	}))
 
 	app.Use(middleware.SetCurrentUser(s.SC))
+
+	authV1 := app.Group("/v1")
+	{
+		carts := authV1.Group("/carts")
+		{
+			carts.Get("/my-cart", fibercart.MyCart(s.SC))
+			carts.Post("/add-to-cart", fibercart.AddToCart(s.SC))
+			carts.Post("/clear-cart", fibercart.ClearMyCart(s.SC))
+		}
+	}
 
 	addr := fmt.Sprintf(":%d", viper.GetInt("PORT"))
 	if err := app.Listen(addr); err != nil {
