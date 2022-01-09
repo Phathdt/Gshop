@@ -3,13 +3,22 @@ package usrrepo
 import (
 	"context"
 
-	"gorm.io/gorm"
 	"gshop/module/users/usrmodel"
 	"gshop/sdk/sdkcm"
+
+	"gorm.io/gorm"
 )
 
 type userRepo struct {
 	DB *gorm.DB
+}
+
+func (u userRepo) CreateUser(ctx context.Context, input *usrmodel.UserCreate) error {
+	if err := u.DB.Create(&input).Error; err != nil {
+		return sdkcm.ErrDB(err)
+	}
+
+	return nil
 }
 
 func (u userRepo) GetUserByUsername(ctx context.Context, username string) (*usrmodel.User, error) {

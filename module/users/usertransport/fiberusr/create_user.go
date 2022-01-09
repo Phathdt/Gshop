@@ -1,0 +1,37 @@
+package fiberusr
+
+import (
+	"github.com/gofiber/fiber/v2"
+	"gshop/common"
+	"gshop/module/users/usrmodel"
+	"gshop/module/users/usrrepo"
+	"gshop/module/users/usrusecase"
+	"gshop/sdk"
+)
+
+func CreateUser(sc *sdk.ServiceContext) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var input usrmodel.UserCreate
+		err := c.BodyParser(&input)
+		if err != nil {
+			panic(err)
+		}
+
+		usrRepo := usrrepo.NewUserRepo(sc.DB)
+		uc := usrusecase.NewUserUseCase(usrRepo)
+
+		user, err := uc.CreateUser(c.Context(), &input)
+		if err != nil {
+			panic(err)
+		}
+
+		token, err := common.GenerateJWT(user)
+		if err != nil {
+			panic(err)
+		}
+
+		return c.Status(200).JSON(&fiber.Map{
+			"token": token,
+		})
+	}
+}

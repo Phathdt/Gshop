@@ -3,6 +3,7 @@ module gshop
 go 1.17
 
 require (
+	github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
 	github.com/gofiber/fiber/v2 v2.24.0
 	github.com/lib/pq v1.10.4
 	github.com/sirupsen/logrus v1.8.1

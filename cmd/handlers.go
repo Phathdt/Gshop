@@ -39,11 +39,14 @@ func (s *server) Run() error {
 	app.Get("/", ping())
 	app.Get("/ping", ping())
 
-	app.Get("/users", fiberusr.GetUserByUsername(s.SC))
+	v1 := app.Group("/v1")
+	{
+		v1.Get("/users", fiberusr.GetUserByUsername(s.SC))
+		v1.Post("/users", fiberusr.CreateUser(s.SC))
+	}
 
 	addr := fmt.Sprintf(":%d", viper.GetInt("PORT"))
-	err := app.Listen(addr)
-	if err != nil {
+	if err := app.Listen(addr); err != nil {
 		return err
 	}
 
