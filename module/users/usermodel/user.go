@@ -1,4 +1,4 @@
-package usrmodel
+package usermodel
 
 import "gshop/sdk/sdkcm"
 

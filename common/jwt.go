@@ -8,10 +8,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
-	"gshop/module/users/usrmodel"
+	"gshop/module/users/usermodel"
 )
 
-func GenerateJWT(user *usrmodel.User) (string, error) {
+func GenerateJWT(user *usermodel.User) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id":  user.ID,
 		"username": user.Username,
@@ -32,8 +32,8 @@ func GetHash(pwd []byte) string {
 	return string(hash)
 }
 
-func GetCurrentUser(c *fiber.Ctx) *usrmodel.User {
-	currentUser := c.Locals("currentUser").(*usrmodel.User)
+func GetCurrentUser(c *fiber.Ctx) *usermodel.User {
+	currentUser := c.Locals("currentUser").(*usermodel.User)
 
 	return currentUser
 }

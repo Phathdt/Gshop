@@ -3,8 +3,9 @@ package middleware
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
-	"gshop/module/users/usrrepo"
-	"gshop/module/users/usrusecase"
+	"gshop/module/users/userhandler"
+	"gshop/module/users/userrepo"
+	"gshop/module/users/userstorage"
 	"gshop/sdk"
 )
 
@@ -14,10 +15,11 @@ func SetCurrentUser(sc *sdk.ServiceContext) fiber.Handler {
 		claims := user.Claims.(jwt.MapClaims)
 		userId := claims["user_id"].(float64)
 
-		userRepo := usrrepo.NewUserRepo(sc.DB)
-		uc := usrusecase.NewUserUseCase(userRepo)
+		storage := userstorage.NewUserSQLStorage(sc.DB)
+		repo := userrepo.NewGetUserRepo(storage)
+		hdl := userhandler.NewGetUserHdl(repo)
 
-		currentUser, err := uc.GetUser(c.UserContext(), uint32(userId))
+		currentUser, err := hdl.Response(c.Context(), uint32(userId))
 		if err != nil {
 			return err
 		}
