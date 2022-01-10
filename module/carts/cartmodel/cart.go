@@ -8,7 +8,7 @@ import (
 type Cart struct {
 	sdkcm.SQLModel `json:",inline"`
 	Total          uint32         `json:"total"`
-	UserId         uint32         `json:"userId"`
+	UserId         uint32         `json:"user_id"`
 	User           *usrmodel.User `json:"user"`
 	CartProduct    []CartProduct  `json:"items"`
 }
