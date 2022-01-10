@@ -1,4 +1,4 @@
-package fiberproduct
+package productfiber
 
 import (
 	"net/http"

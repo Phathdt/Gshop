@@ -7,10 +7,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/spf13/viper"
-	"gshop/module/carts/carttransport/fibercart"
-	"gshop/module/products/producttransport/fiberproduct"
-	"gshop/module/users/usertransport/fiberusr"
+	"gshop/module/carts/carttransport/cartfiber"
+	"gshop/module/products/producttransport/productfiber"
 	middleware2 "gshop/module/users/usertransport/middleware"
+	"gshop/module/users/usertransport/userfiber"
 	"gshop/sdk"
 	"gshop/sdk/httpserver/middleware"
 )
@@ -46,13 +46,13 @@ func (s *server) Run() error {
 	{
 		users := v1.Group("/users")
 		{
-			users.Post("/signup", fiberusr.CreateUser(s.SC))
-			users.Post("/login", fiberusr.LoginUser(s.SC))
+			users.Post("/signup", userfiber.CreateUser(s.SC))
+			users.Post("/login", userfiber.LoginUser(s.SC))
 		}
 
 		products := v1.Group("/products")
 		{
-			products.Get("/", fiberproduct.ListProduct(s.SC))
+			products.Get("/", productfiber.ListProduct(s.SC))
 		}
 	}
 
@@ -72,9 +72,9 @@ func (s *server) Run() error {
 	{
 		carts := authV1.Group("/carts")
 		{
-			carts.Get("/my-cart", fibercart.MyCart(s.SC))
-			carts.Post("/add-to-cart", fibercart.AddToCart(s.SC))
-			carts.Post("/clear-cart", fibercart.ClearMyCart(s.SC))
+			carts.Get("/my-cart", cartfiber.MyCart(s.SC))
+			carts.Post("/add-to-cart", cartfiber.AddToCart(s.SC))
+			carts.Post("/clear-cart", cartfiber.ClearMyCart(s.SC))
 		}
 	}
 

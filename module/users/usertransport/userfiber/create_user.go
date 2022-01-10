@@ -1,4 +1,4 @@
-package fiberusr
+package userfiber
 
 import (
 	"net/http"
@@ -12,9 +12,9 @@ import (
 	"gshop/sdk/sdkcm"
 )
 
-func LoginUser(sc *sdk.ServiceContext) fiber.Handler {
+func CreateUser(sc *sdk.ServiceContext) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var input usrmodel.UserLogin
+		var input usrmodel.UserCreate
 		if err := c.BodyParser(&input); err != nil {
 			panic(err)
 		}
@@ -26,7 +26,7 @@ func LoginUser(sc *sdk.ServiceContext) fiber.Handler {
 		usrRepo := usrrepo.NewUserRepo(sc.DB)
 		uc := usrusecase.NewUserUseCase(usrRepo)
 
-		user, err := uc.LoginUser(c.Context(), &input)
+		user, err := uc.CreateUser(c.Context(), &input)
 		if err != nil {
 			panic(err)
 		}

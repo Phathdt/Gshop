@@ -1,4 +1,4 @@
-package fibercart
+package cartfiber
 
 import (
 	"net/http"
@@ -11,18 +11,18 @@ import (
 	"gshop/sdk/sdkcm"
 )
 
-func MyCart(sc *sdk.ServiceContext) fiber.Handler {
+func ClearMyCart(sc *sdk.ServiceContext) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		user := common.GetCurrentUser(c)
 
 		repo := cartrepo.NewCartRepo(sc.DB)
 		uc := cartusecase.NewCartUseCase(repo)
 
-		cart, err := uc.MyCart(c.Context(), user.ID)
+		err := uc.ClearMyCart(c.Context(), user.ID)
 		if err != nil {
 			panic(err)
 		}
 
-		return c.Status(http.StatusOK).JSON(sdkcm.SimpleSuccessResponse(cart))
+		return c.Status(http.StatusOK).JSON(sdkcm.SimpleSuccessResponse("OK"))
 	}
 }
