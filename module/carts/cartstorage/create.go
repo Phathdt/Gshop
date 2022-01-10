@@ -16,3 +16,18 @@ func (s cartSQLStorage) CreateCart(ctx context.Context, userId uint32) (uint32, 
 
 	return newCart.ID, nil
 }
+
+func (s *cartSQLStorage) AddToCart(ctx context.Context, cartId uint32, productId, quantity, price uint32) error {
+	item := cartmodel.CartProduct{
+		Quantity:  quantity,
+		Total:     price * quantity,
+		CartId:    cartId,
+		ProductId: productId,
+	}
+
+	if err := s.db.Create(&item).Error; err != nil {
+		return sdkcm.ErrDB(err)
+	}
+
+	return nil
+}

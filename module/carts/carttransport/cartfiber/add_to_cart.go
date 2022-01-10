@@ -5,10 +5,12 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"gshop/common"
+	"gshop/module/carts/carthdl"
 	"gshop/module/carts/cartmodel"
 	"gshop/module/carts/cartrepo"
-	"gshop/module/carts/cartusecase"
+	"gshop/module/carts/cartstorage"
 	"gshop/module/products/productrepo"
+	"gshop/module/products/productstorage"
 	"gshop/sdk"
 	"gshop/sdk/sdkcm"
 )
@@ -22,11 +24,16 @@ func AddToCart(sc *sdk.ServiceContext) fiber.Handler {
 
 		user := common.GetCurrentUser(c)
 
-		repo := cartrepo.NewCartRepo(sc.DB)
-		productRepo := productrepo.NewProductRepo(sc.DB)
-		uc := cartusecase.NewAddCartUseCase(repo, productRepo)
+		storage := cartstorage.NewCartSQLStorage(sc.DB)
+		readRepo := cartrepo.NewGetCartRepo(storage)
+		repo := cartrepo.NewAddToCartRepo(storage)
 
-		if err := uc.AddToCart(c.Context(), user.ID, input.ProductId, input.Quantity); err != nil {
+		productStorage := productstorage.NewProductSQLStorage(sc.DB)
+		productRepo := productrepo.NewGetProductRepo(productStorage)
+
+		hdl := carthdl.NewAddToCartHdl(repo, readRepo, productRepo)
+
+		if err := hdl.Response(c.Context(), user.ID, input.ProductId, input.Quantity); err != nil {
 			panic(err)
 		}
 

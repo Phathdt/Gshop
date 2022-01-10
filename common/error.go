@@ -15,9 +15,11 @@ var (
 	ErrRecordNotFound = sdkcm.CustomError("ErrRecordNotFound", "record not found")
 
 	// cart
-	ErrCreateCart = sdkcm.CustomError("ErrCreateCart", "error when create cart")
-	ErrFindCart   = sdkcm.CustomError("ErrFindCart", "error when find cart")
-	ErrDeleteCart = sdkcm.CustomError("ErrDeleteCart", "error when delete cart")
+	ErrCreateCart        = sdkcm.CustomError("ErrCreateCart", "error when create cart")
+	ErrFindCart          = sdkcm.CustomError("ErrFindCart", "error when find cart")
+	ErrDeleteCart        = sdkcm.CustomError("ErrDeleteCart", "error when delete cart")
+	ErrDeleteCartProduct = sdkcm.CustomError("ErrDeleteCartProduct", "error when delete cart product")
+	ErrUpdateCart        = sdkcm.CustomError("ErrUpdateCart", "error when update cart")
 
 	// product
 	ErrProductNotFound   = sdkcm.CustomError("ErrProductNotFound", "product not found")
