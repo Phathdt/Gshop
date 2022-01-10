@@ -8,10 +8,10 @@ import (
 	"gshop/sdk/sdkcm"
 )
 
-func (p productSQLStorage) GetProductByCondition(ctx context.Context, cond map[string]interface{}) (*productmodel.Product, error) {
+func (s *productSQLStorage) GetProductByCondition(ctx context.Context, cond map[string]interface{}) (*productmodel.Product, error) {
 	var product productmodel.Product
 
-	if err := p.db.Where(cond).First(&product).Error; err != nil {
+	if err := s.db.Where(cond).First(&product).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, sdkcm.ErrDataNotFound
 		}

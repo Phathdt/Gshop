@@ -7,10 +7,10 @@ import (
 	"gshop/sdk/sdkcm"
 )
 
-func (p productSQLStorage) ListProduct(ctx context.Context, filter *productmodel.ListFilter, paging *sdkcm.Paging, moreKeys ...string) ([]productmodel.Product, error) {
+func (s *productSQLStorage) ListProduct(ctx context.Context, filter *productmodel.ListFilter, paging *sdkcm.Paging, moreKeys ...string) ([]productmodel.Product, error) {
 	var data []productmodel.Product
 
-	db := p.db.Table(productmodel.Product{}.TableName())
+	db := s.db.Table(productmodel.Product{}.TableName())
 
 	if f := filter; f != nil {
 		if v := f.CategoryId; v != nil {
