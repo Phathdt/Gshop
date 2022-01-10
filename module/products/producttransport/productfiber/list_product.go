@@ -4,9 +4,10 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"gshop/module/products/producthdl"
 	"gshop/module/products/productmodel"
 	"gshop/module/products/productrepo"
-	"gshop/module/products/productusecase"
+	"gshop/module/products/productstorage"
 	"gshop/sdk"
 	"gshop/sdk/sdkcm"
 )
@@ -21,10 +22,11 @@ func ListProduct(sc *sdk.ServiceContext) fiber.Handler {
 
 		p.FullFill()
 
-		repo := productrepo.NewProductRepo(sc.DB)
-		uc := productusecase.NewProductUseCase(repo)
+		storage := productstorage.NewProductSQLStorage(sc.DB)
+		repo := productrepo.NewListProductRepo(storage)
+		hdl := producthdl.NewListProductHdl(repo)
 
-		data, err := uc.ListProduct(c.Context(), p.ListFilter, &p.Paging)
+		data, err := hdl.Response(c.Context(), p.ListFilter, &p.Paging)
 		if err != nil {
 			panic(err)
 		}

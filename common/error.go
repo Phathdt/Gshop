@@ -20,6 +20,8 @@ var (
 	ErrDeleteCart = sdkcm.CustomError("ErrDeleteCart", "error when delete cart")
 
 	// product
-	ErrProductNotFound = sdkcm.CustomError("ErrProductNotFound", "product not found")
-	ErrAddToCart       = sdkcm.CustomError("ErrAddToCart", "add to cart")
+	ErrProductNotFound   = sdkcm.CustomError("ErrProductNotFound", "product not found")
+	ErrAddToCart         = sdkcm.CustomError("ErrAddToCart", "add to cart")
+	ErrCannotListProduct = sdkcm.CustomError("ErrCannotListProduct", "error when list product")
+	ErrCannotGetProduct  = sdkcm.CustomError("ErrCannotGetProduct", "error when get product")
 )
