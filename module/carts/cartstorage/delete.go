@@ -15,3 +15,11 @@ func (s *cartSQLStorage) DeleteCartProduct(ctx context.Context, cartId, productI
 
 	return nil
 }
+
+func (s *cartSQLStorage) DeleteCart(ctx context.Context, cartId uint32) error {
+	if err := s.db.Table(cartmodel.Cart{}.TableName()).Where("id = ?", cartId).Delete(nil).Error; err != nil {
+		return sdkcm.ErrDB(err)
+	}
+
+	return nil
+}
