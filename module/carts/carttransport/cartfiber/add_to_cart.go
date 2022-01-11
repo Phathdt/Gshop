@@ -29,7 +29,7 @@ func AddToCart(sc *sdk.ServiceContext) fiber.Handler {
 		repo := cartrepo.NewAddToCartRepo(storage)
 
 		productStorage := productstorage.NewProductSQLStorage(sc.DB)
-		productRepo := productrepo.NewGetProductRepo(productStorage)
+		productRepo := productrepo.NewProductRepo(productStorage)
 
 		hdl := carthdl.NewAddToCartHdl(repo, readRepo, productRepo)
 

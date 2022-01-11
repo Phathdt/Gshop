@@ -23,7 +23,7 @@ func ListProduct(sc *sdk.ServiceContext) fiber.Handler {
 		p.FullFill()
 
 		storage := productstorage.NewProductSQLStorage(sc.DB)
-		repo := productrepo.NewListProductRepo(storage)
+		repo := productrepo.NewProductRepo(storage)
 		hdl := producthdl.NewListProductHdl(repo)
 
 		data, err := hdl.Response(c.Context(), p.ListFilter, &p.Paging)
