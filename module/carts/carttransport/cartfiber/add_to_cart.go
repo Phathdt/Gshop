@@ -25,13 +25,12 @@ func AddToCart(sc *sdk.ServiceContext) fiber.Handler {
 		user := common.GetCurrentUser(c)
 
 		storage := cartstorage.NewCartSQLStorage(sc.DB)
-		readRepo := cartrepo.NewGetCartRepo(storage)
-		repo := cartrepo.NewAddToCartRepo(storage)
+		repo := cartrepo.NewCartRepo(storage)
 
 		productStorage := productstorage.NewProductSQLStorage(sc.DB)
 		productRepo := productrepo.NewProductRepo(productStorage)
 
-		hdl := carthdl.NewAddToCartHdl(repo, readRepo, productRepo)
+		hdl := carthdl.NewAddToCartHdl(repo, productRepo)
 
 		if err := hdl.Response(c.Context(), user.ID, input.ProductId, input.Quantity); err != nil {
 			panic(err)

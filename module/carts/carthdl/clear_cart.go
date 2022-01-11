@@ -1,22 +1,26 @@
 package carthdl
 
-import "context"
+import (
+	"context"
+
+	"gshop/module/carts/cartmodel"
+)
 
 type ClearCartRepo interface {
 	ClearCart(ctx context.Context, cartId uint32) error
+	GetCart(ctx context.Context, userId uint32) (*cartmodel.Cart, error)
 }
 
 type clearCartHdl struct {
-	repo     ClearCartRepo
-	readRepo GetCartRepo
+	repo ClearCartRepo
 }
 
-func NewClearCartHdl(repo ClearCartRepo, readRepo GetCartRepo) *clearCartHdl {
-	return &clearCartHdl{repo: repo, readRepo: readRepo}
+func NewClearCartHdl(repo ClearCartRepo) *clearCartHdl {
+	return &clearCartHdl{repo: repo}
 }
 
 func (h *clearCartHdl) Response(ctx context.Context, userId uint32) error {
-	cart, err := h.readRepo.GetCart(ctx, userId)
+	cart, err := h.repo.GetCart(ctx, userId)
 	if err != nil {
 		return err
 	}

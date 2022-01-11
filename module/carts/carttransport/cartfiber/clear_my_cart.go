@@ -17,9 +17,8 @@ func ClearMyCart(sc *sdk.ServiceContext) fiber.Handler {
 		user := common.GetCurrentUser(c)
 
 		storage := cartstorage.NewCartSQLStorage(sc.DB)
-		repo := cartrepo.NewClearCartRepo(storage)
-		readRepo := cartrepo.NewGetCartRepo(storage)
-		hdl := carthdl.NewClearCartHdl(repo, readRepo)
+		repo := cartrepo.NewCartRepo(storage)
+		hdl := carthdl.NewClearCartHdl(repo)
 
 		err := hdl.Response(c.Context(), user.ID)
 		if err != nil {

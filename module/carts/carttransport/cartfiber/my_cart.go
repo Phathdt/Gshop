@@ -17,7 +17,7 @@ func MyCart(sc *sdk.ServiceContext) fiber.Handler {
 		user := common.GetCurrentUser(c)
 
 		storage := cartstorage.NewCartSQLStorage(sc.DB)
-		repo := cartrepo.NewGetCartRepo(storage)
+		repo := cartrepo.NewCartRepo(storage)
 		hdl := carthdl.NewGetCartHdl(repo)
 
 		cart, err := hdl.Response(c.Context(), user.ID)
