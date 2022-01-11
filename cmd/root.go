@@ -47,8 +47,6 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
-	rootCmd.AddCommand(migrateCmd)
-
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatal(err)
 	}

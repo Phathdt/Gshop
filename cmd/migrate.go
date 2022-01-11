@@ -22,7 +22,7 @@ var (
 // migrateCmd represents the migrate command
 var migrateCmd = &cobra.Command{
 	Use:   "migrate",
-	Short: "A brief description of your command",
+	Short: "Migrate database with goose",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		flags.Usage = usage
 

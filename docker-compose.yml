@@ -13,14 +13,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-  migrate:
-    image: migrate/migrate:v4.15.1
-    volumes:
-      - ./migrations:/migrations
-    command: ["-path", "/migrations", "-database",  "postgresql://postgres:123123123@db:5432/gshop?sslmode=disable", "up"]
-    depends_on:
-      db:
-        condition: service_healthy
   backend:
     build: .
     environment:
