@@ -25,9 +25,11 @@ func Recover(sc *sdk.ServiceContext) fiber.Handler {
 						appErr.Log = appErr.RootCause.Error()
 					}
 
-					c.Status(appErr.StatusCode).JSON(&fiber.Map{
+					if err := c.Status(appErr.StatusCode).JSON(&fiber.Map{
 						"error": appErr,
-					})
+					}); err != nil {
+						return
+					}
 
 				} else {
 					var appErr sdkcm.AppError
@@ -41,25 +43,31 @@ func Recover(sc *sdk.ServiceContext) fiber.Handler {
 
 						logger.Errorln(err.Error())
 
-						c.Status(appErr.StatusCode).JSON(&fiber.Map{
+						if err := c.Status(appErr.StatusCode).JSON(&fiber.Map{
 							"error": appErr,
-						})
+						}); err != nil {
+							return
+						}
 
 					} else if e, ok := err.(error); ok {
 						appErr = sdkcm.AppError{StatusCode: http.StatusInternalServerError, Message: "internal server error"}
 						logger.Errorln(e.Error())
 
-						c.Status(appErr.StatusCode).JSON(&fiber.Map{
+						if err := c.Status(appErr.StatusCode).JSON(&fiber.Map{
 							"error": appErr,
-						})
+						}); err != nil {
+							return
+						}
 
 					} else {
 						appErr = sdkcm.AppError{StatusCode: http.StatusInternalServerError, Message: fmt.Sprintf("%s", err)}
 						logger.Errorln(fmt.Sprintf("%s", err))
 
-						c.Status(appErr.StatusCode).JSON(&fiber.Map{
+						if err := c.Status(appErr.StatusCode).JSON(&fiber.Map{
 							"error": appErr,
-						})
+						}); err != nil {
+							return
+						}
 
 					}
 				}
