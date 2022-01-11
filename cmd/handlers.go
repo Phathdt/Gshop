@@ -39,7 +39,7 @@ func (s *server) Run() error {
 
 	app.Use(middleware.Recover(s.SC))
 
-	app.Get("/", ping())
+	app.Static("/", "./public")
 	app.Get("/ping", ping())
 
 	v1 := app.Group("/v1")

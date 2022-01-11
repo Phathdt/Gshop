@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: Gshop API
+  version: 1.0.0
+servers:
+  - url: https://gshop.xyz/v1
+    description: production
+paths:
+  /users/signup:
+    post:
+      tags:
+        - Users
+      summary: User sign up
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registrationrequest'
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              example:
+                code: 200
+                data:
+                  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDIwMDY5NzgsInVzZXJfaWQiOjQsInVzZXJuYW1lIjoicGhhdGhkdCJ9.lwjSUXuKNvMh9NwzcYpMl_3y7Whi60AVoksXr0OYI3M
+  /users/login:
+    post:
+      tags:
+        - Users
+      summary: User login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registrationrequest'
+        required: true
+      responses:
+        200:
+          description: ''
+          headers: {}
+          content:
+            application/json:
+              example:
+                code: 200
+                data:
+                  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDIwMDY5NzgsInVzZXJfaWQiOjQsInVzZXJuYW1lIjoicGhhdGhkdCJ9.lwjSUXuKNvMh9NwzcYpMl_3y7Whi60AVoksXr0OYI3M
+
+components:
+  schemas:
+    registrationrequest:
+      title: registrationrequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: abc@yopmail.com
+        password: abc123123
