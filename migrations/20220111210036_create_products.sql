@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 CREATE TABLE "products" (
     "id" BIGSERIAL PRIMARY KEY,
     "sku" text,
@@ -9,3 +11,9 @@ CREATE TABLE "products" (
 );
 
 ALTER TABLE "products" ADD FOREIGN KEY ("category_id") REFERENCES "categories" ("id");
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+DROP TABLE IF EXISTS "products";
+-- +goose StatementEnd

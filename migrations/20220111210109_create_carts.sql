@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 CREATE TABLE "carts" (
     "id" BIGSERIAL PRIMARY KEY,
     "total" bigint DEFAULT 0,
@@ -7,3 +9,9 @@ CREATE TABLE "carts" (
 );
 
 ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+DROP TABLE IF EXISTS "carts";
+-- +goose StatementEnd

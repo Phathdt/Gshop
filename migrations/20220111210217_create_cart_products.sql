@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 CREATE TABLE "cart_products" (
     "cart_id" bigint NOT NULL,
     "product_id" bigint NOT NULL,
@@ -10,3 +12,10 @@ CREATE TABLE "cart_products" (
 
 ALTER TABLE "cart_products" ADD FOREIGN KEY ("cart_id") REFERENCES "carts" ("id") ON DELETE CASCADE;
 ALTER TABLE "cart_products" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
+
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+DROP TABLE IF EXISTS "cart_products";
+-- +goose StatementEnd
