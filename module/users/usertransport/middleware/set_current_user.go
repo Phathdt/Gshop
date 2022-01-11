@@ -16,7 +16,7 @@ func SetCurrentUser(sc *sdk.ServiceContext) fiber.Handler {
 		userId := claims["user_id"].(float64)
 
 		storage := userstorage.NewUserSQLStorage(sc.DB)
-		repo := userrepo.NewGetUserRepo(storage)
+		repo := userrepo.NewUserRepo(storage)
 		hdl := userhandler.NewGetUserHdl(repo)
 
 		currentUser, err := hdl.Response(c.Context(), uint32(userId))

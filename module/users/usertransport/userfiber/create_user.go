@@ -25,7 +25,7 @@ func CreateUser(sc *sdk.ServiceContext) fiber.Handler {
 		}
 
 		storage := userstorage.NewUserSQLStorage(sc.DB)
-		repo := userrepo.NewCreateUserRepo(storage)
+		repo := userrepo.NewUserRepo(storage)
 		hdl := userhandler.NewCreateUserHdl(repo)
 
 		user, err := hdl.Response(c.Context(), &input)
