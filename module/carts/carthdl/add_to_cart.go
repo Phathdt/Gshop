@@ -22,6 +22,8 @@ type addToCartHdl struct {
 var ABC = 1
 
 func NewAddToCartHdl(repo AddToCartRepo, productRepo producthdl.GetProductRepo) *addToCartHdl {
+	ABC += 1
+
 	return &addToCartHdl{repo: repo, productRepo: productRepo}
 }
 
