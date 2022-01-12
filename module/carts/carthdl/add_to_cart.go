@@ -24,7 +24,7 @@ var ABC = 1
 func NewAddToCartHdl(repo AddToCartRepo, productRepo producthdl.GetProductRepo) *addToCartHdl {
 	ABC += 1
 
-	return &addToCartHdl{repo: repo, productRepo: productRepo}
+	return &addToCartHd{repo: repo, productRepo: productRepo}
 }
 
 func (h *addToCartHdl) Response(ctx context.Context, userId, productId, quantity uint32) error {
