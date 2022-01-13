@@ -15,5 +15,5 @@ type CartProduct struct {
 }
 
 func (CartProduct) TableName() string {
-	return "cart_products"
+	return "checkout.cart_products"
 }

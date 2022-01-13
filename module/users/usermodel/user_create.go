@@ -11,5 +11,5 @@ type UserCreate struct {
 }
 
 func (UserCreate) TableName() string {
-	return "users"
+	return "auth.users"
 }

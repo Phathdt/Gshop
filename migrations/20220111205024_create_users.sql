@@ -1,6 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE "users" (
+CREATE SCHEMA "auth";
+CREATE TABLE "auth"."users" (
     "id" BIGSERIAL PRIMARY KEY,
     "username" text,
     "password" text,
@@ -8,10 +9,11 @@ CREATE TABLE "users" (
     "updated_at" timestamp(0) DEFAULT now()
 );
 
-CREATE UNIQUE INDEX ON "users" ("username");
+CREATE UNIQUE INDEX ON "auth"."users" ("username");
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS "auth"."users";
+DROP SCHEMA "auth"
 -- +goose StatementEnd

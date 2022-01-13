@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE "products" (
+CREATE TABLE "shopping"."products" (
     "id" BIGSERIAL PRIMARY KEY,
     "sku" text,
     "name" text,
@@ -10,10 +10,10 @@ CREATE TABLE "products" (
     "updated_at" timestamp(0) DEFAULT now()
 );
 
-ALTER TABLE "products" ADD FOREIGN KEY ("category_id") REFERENCES "categories" ("id");
+ALTER TABLE "shopping"."products" ADD FOREIGN KEY ("category_id") REFERENCES "shopping"."categories" ("id");
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS "products";
+DROP TABLE IF EXISTS "shopping"."products";
 -- +goose StatementEnd

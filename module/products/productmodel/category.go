@@ -8,5 +8,5 @@ type Category struct {
 }
 
 func (Category) TableName() string {
-	return "categories"
+	return "shopping.categories"
 }

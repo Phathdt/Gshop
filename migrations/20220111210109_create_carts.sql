@@ -1,6 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE "carts" (
+CREATE SCHEMA "checkout";
+CREATE TABLE "checkout"."carts" (
     "id" BIGSERIAL PRIMARY KEY,
     "total" bigint DEFAULT 0,
     "user_id" bigint NOT NULL,
@@ -8,10 +9,11 @@ CREATE TABLE "carts" (
     "updated_at" timestamp(0) DEFAULT now()
 );
 
-ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+ALTER TABLE "checkout"."carts" ADD FOREIGN KEY ("user_id") REFERENCES "auth"."users" ("id");
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS "carts";
+DROP TABLE IF EXISTS "checkout"."carts";
+DROP SCHEMA "checkout";
 -- +goose StatementEnd
