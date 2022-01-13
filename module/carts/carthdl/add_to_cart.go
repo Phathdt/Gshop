@@ -19,8 +19,12 @@ type addToCartHdl struct {
 	productRepo producthdl.GetProductRepo
 }
 
+var ABC = 1
+
 func NewAddToCartHdl(repo AddToCartRepo, productRepo producthdl.GetProductRepo) *addToCartHdl {
-	return &addToCartHdl{repo: repo, productRepo: productRepo}
+	ABC += 1
+
+	return &addToCartHd{repo: repo, productRepo: productRepo}
 }
 
 func (h *addToCartHdl) Response(ctx context.Context, userId, productId, quantity uint32) error {
