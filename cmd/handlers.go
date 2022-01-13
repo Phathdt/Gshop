@@ -3,16 +3,17 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	jwtware "github.com/gofiber/jwt/v2"
-	"github.com/spf13/viper"
 	"gshop/module/carts/carttransport/cartfiber"
 	"gshop/module/products/producttransport/productfiber"
 	middleware2 "gshop/module/users/usertransport/middleware"
 	"gshop/module/users/usertransport/userfiber"
 	"gshop/sdk"
 	"gshop/sdk/httpserver/middleware"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	jwtware "github.com/gofiber/jwt/v2"
+	"github.com/spf13/viper"
 )
 
 type server struct {
@@ -39,7 +40,7 @@ func (s *server) Run() error {
 
 	app.Use(middleware.Recover(s.SC))
 
-	app.Static("/", "./public")
+	app.Get("/", ping())
 	app.Get("/ping", ping())
 
 	v1 := app.Group("/v1")
