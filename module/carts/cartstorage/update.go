@@ -8,7 +8,7 @@ import (
 
 const updateTotalCart = `-- name: UpdateTotalCart
 UPDATE
-	carts
+	checkout.carts
 SET
 	total = t.total
 FROM (
@@ -16,7 +16,7 @@ FROM (
 		cart_id,
 		SUM(total) AS total
 	FROM
-		cart_products
+		checkout.cart_products
 	WHERE
 		cart_id = $1
 	GROUP BY
