@@ -1,24 +1,40 @@
 package gorm
 
 import (
+	"time"
+
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	gormLogger "gorm.io/gorm/logger"
 )
 
-func InitDb() (*gorm.DB, error) {
-	var logLevel logger.LogLevel
+func initLogger() gormLogger.Interface {
+	var logLevel gormLogger.LogLevel
 	if viper.GetString("LOG_LEVEL") == "DEBUG" {
-		logLevel = logger.Info
+		logLevel = gormLogger.Info
 	} else {
-		logLevel = logger.Error
+		logLevel = gormLogger.Error
 	}
 
+	log := logrus.New()
+	log.SetFormatter(&logrus.JSONFormatter{})
+	newLogger := gormLogger.New(log, gormLogger.Config{
+		SlowThreshold:             time.Second, // Slow SQL threshold
+		IgnoreRecordNotFoundError: false,       // Skip ErrRecordNotFound error for logger
+		LogLevel:                  logLevel,    // Log level. Default value: gormLogger.Info
+		Colorful:                  false,
+	})
+
+	return newLogger
+}
+
+func InitDb() (*gorm.DB, error) {
 	return gorm.Open(postgres.New(postgres.Config{
 		DSN:                  viper.GetString("DATABASE_URL"),
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage
 	}), &gorm.Config{
-		Logger: logger.Default.LogMode(logLevel),
+		Logger: initLogger(),
 	})
 }
