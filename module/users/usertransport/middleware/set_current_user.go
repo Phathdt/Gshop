@@ -13,15 +13,20 @@ func SetCurrentUser(sc *sdk.ServiceContext) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		user := c.Locals("user").(*jwt.Token)
 		claims := user.Claims.(jwt.MapClaims)
-		userId := claims["user_id"].(float64)
+		userId := uint32(claims["user_id"].(float64))
+		secretToken := claims["secret"].(string)
 
 		storage := userstorage.NewUserSQLStorage(sc.DB)
 		repo := userrepo.NewUserRepo(storage)
-		hdl := userhandler.NewGetUserHdl(repo)
 
-		currentUser, err := hdl.Response(c.Context(), uint32(userId))
+		rdb := userstorage.NewTokenStore(sc.RdClient)
+		tokenRepo := userrepo.NewTokenRepo(rdb)
+
+		hdl := userhandler.NewGetUserHdl(repo, tokenRepo)
+
+		currentUser, err := hdl.Response(c.Context(), userId, secretToken)
 		if err != nil {
-			return err
+			panic(err)
 		}
 
 		c.Locals("currentUser", currentUser)

@@ -11,6 +11,13 @@ var (
 	ErrFindUser         = sdkcm.CustomError("ErrFindUser", "error when find user")
 	ErrPasswordNotMatch = sdkcm.CustomError("ErrPasswordNotMatch", "password not match")
 
+	//redis
+	ErrRedis = sdkcm.CustomError("ErrRedis", "Err redis")
+
+	//token
+	ErrCreateToken = sdkcm.CustomError("ErrCreateToken", "err create token")
+	ErrGetToken    = sdkcm.CustomError("ErrGetToken", "Token not found")
+
 	//common
 	ErrRecordNotFound = sdkcm.CustomError("ErrRecordNotFound", "record not found")
 

@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"github.com/go-redis/redis/v8"
 	"gshop/sdk/logger"
 
 	"gorm.io/gorm"
@@ -8,11 +9,12 @@ import (
 
 type ServiceContext struct {
 	*gorm.DB
-	logger logger.Logger
+	RdClient *redis.Client
+	logger   logger.Logger
 }
 
-func New(DB *gorm.DB) *ServiceContext {
-	sv := &ServiceContext{DB: DB}
+func New(DB *gorm.DB, rdb *redis.Client) *ServiceContext {
+	sv := &ServiceContext{DB: DB, RdClient: rdb}
 
 	sv.logger = logger.GetCurrent().GetLogger("service")
 

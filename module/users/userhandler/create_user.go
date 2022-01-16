@@ -10,14 +10,25 @@ type CreateUserRepo interface {
 	CreateUser(ctx context.Context, data *usermodel.UserCreate) (*usermodel.User, error)
 }
 
+type CreateTokenRepo interface {
+	CreateToken(ctx context.Context, user *usermodel.User) (string, error)
+}
+
 type createUserHdl struct {
-	repo CreateUserRepo
+	repo      CreateUserRepo
+	tokenRepo CreateTokenRepo
 }
 
-func NewCreateUserHdl(repo CreateUserRepo) *createUserHdl {
-	return &createUserHdl{repo: repo}
+func NewCreateUserHdl(repo CreateUserRepo, tokenRepo CreateTokenRepo) *createUserHdl {
+	return &createUserHdl{repo: repo, tokenRepo: tokenRepo}
 }
 
-func (h *createUserHdl) Response(ctx context.Context, data *usermodel.UserCreate) (*usermodel.User, error) {
-	return h.repo.CreateUser(ctx, data)
+func (h *createUserHdl) Response(ctx context.Context, data *usermodel.UserCreate) (string, error) {
+	user, err := h.repo.CreateUser(ctx, data)
+
+	if err != nil {
+		return "", err
+	}
+
+	return h.tokenRepo.CreateToken(ctx, user)
 }

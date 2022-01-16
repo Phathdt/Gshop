@@ -26,14 +26,13 @@ func CreateUser(sc *sdk.ServiceContext) fiber.Handler {
 
 		storage := userstorage.NewUserSQLStorage(sc.DB)
 		repo := userrepo.NewUserRepo(storage)
-		hdl := userhandler.NewCreateUserHdl(repo)
 
-		user, err := hdl.Response(c.Context(), &input)
-		if err != nil {
-			panic(err)
-		}
+		rdb := userstorage.NewTokenStore(sc.RdClient)
+		tokenRepo := userrepo.NewTokenRepo(rdb)
 
-		token, err := common.GenerateJWT(user)
+		hdl := userhandler.NewCreateUserHdl(repo, tokenRepo)
+
+		token, err := hdl.Response(c.Context(), &input)
 		if err != nil {
 			panic(err)
 		}

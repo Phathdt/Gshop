@@ -5,6 +5,7 @@ import (
 
 	"gshop/internal/config"
 	"gshop/internal/gorm"
+	"gshop/internal/redix"
 	"gshop/sdk"
 	"gshop/sdk/logger"
 
@@ -32,7 +33,13 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
-		sc := sdk.New(db)
+		rdb, err := redix.NewRedis()
+		if err != nil {
+			log.Fatalf("%s", err.Error())
+			return err
+		}
+
+		sc := sdk.New(db, rdb)
 
 		server := NewServer(sc)
 
