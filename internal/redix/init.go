@@ -14,8 +14,6 @@ func NewRedis() (*redis.Client, error) {
 		DB:   viper.GetInt("REDIS_DB"),
 	})
 
-	fmt.Println(rdb)
-
 	if _, err := rdb.Ping(context.Background()).Result(); err != nil {
 		return nil, fmt.Errorf("rdb.Ping %w", err)
 	}
