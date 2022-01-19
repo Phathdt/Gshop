@@ -8,7 +8,7 @@
 7. [X] Split logic into transport, handler, repo and storage
 8. [X] API Document
 9. [X] Redis cache
-10. [ ] Unit téet
+10. [ ] Unit test
 
 ## Technology Stack
 
