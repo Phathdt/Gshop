@@ -6,9 +6,9 @@
 5. [X] generate query with gorm
 6. [X] Private and public routes
 7. [X] Split logic into transport, handler, repo and storage
-8. [ ] API Document
-9. [ ] Redis cache
-
+8. [X] API Document
+9. [X] Redis cache
+10. [] Unit téet
 
 ## Technology Stack
 
@@ -65,6 +65,4 @@ make run args="migrate create xxx sql"
 - add manifest K8s
 - deploy with Github Action and ArgoCD
 - add replica postgres
-- add cache DB ( Redis )
 - add more testable for repository, usecase, ...
-- add pagination and meta data
