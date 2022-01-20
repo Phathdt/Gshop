@@ -73,7 +73,7 @@ func (s *server) Run() error {
 	{
 		users := v1.Group("/users")
 		{
-			users.Delete("/logout", userfiber.Logout(s.SC))
+			users.Delete("/logout", userfiber.LogoutUser(s.SC))
 		}
 
 		carts := authV1.Group("/carts")

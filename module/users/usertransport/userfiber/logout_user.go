@@ -12,7 +12,7 @@ import (
 	"gshop/sdk/sdkcm"
 )
 
-func Logout(sc *sdk.ServiceContext) fiber.Handler {
+func LogoutUser(sc *sdk.ServiceContext) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		user := common.GetCurrentUser(c)
 
