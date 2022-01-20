@@ -23,9 +23,13 @@ func (s *tokenStore) DeleteTokenUsers(ctx context.Context, userId uint32) error 
 		return sdkcm.ErrDB(err)
 	}
 
-	for _, key := range keys {
-		s.client.Del(ctx, key)
-	}
+	_, err = s.client.Pipelined(ctx, func(pipe redis.Pipeliner) error {
+		for _, key := range keys {
+			pipe.Del(ctx, key)
+		}
+
+		return nil
+	})
 
 	return nil
 }
