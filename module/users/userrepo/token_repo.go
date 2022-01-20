@@ -9,7 +9,7 @@ import (
 )
 
 type TokenStorage interface {
-	CreateToken(ctx context.Context, secret, token string, userId uint32) error
+	CreateToken(ctx context.Context, token string, userId uint32) error
 	GetToken(ctx context.Context, userId uint32, secretToken string) (string, error)
 }
 
@@ -32,12 +32,12 @@ func (r *tokenRepo) GetToken(ctx context.Context, userId uint32, secretToken str
 }
 
 func (r *tokenRepo) CreateToken(ctx context.Context, user *usermodel.User) (string, error) {
-	secret, jwt, err := common.GenerateJWT(user)
+	jwt, err := common.GenerateJWT(user)
 	if err != nil {
 		return "", err
 	}
 
-	err = r.store.CreateToken(ctx, secret, jwt, user.ID)
+	err = r.store.CreateToken(ctx, jwt, user.ID)
 	if err != nil {
 		return "", sdkcm.ErrCustom(err, common.ErrCreateToken)
 	}

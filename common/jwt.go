@@ -11,21 +11,16 @@ import (
 	"gshop/module/users/usermodel"
 )
 
-func GenerateJWT(user *usermodel.User) (string, string, error) {
-	secret := RandStringBytes(10)
-
+func GenerateJWT(user *usermodel.User) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id":  user.ID,
 		"username": user.Username,
 		"exp":      time.Now().Add(viper.GetDuration("TOKEN_TTL") * time.Second).Unix(),
-		"secret":   secret,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	signedString, err := token.SignedString([]byte(viper.GetString("SIGNING_KEY")))
-
-	return secret, signedString, err
+	return token.SignedString([]byte(viper.GetString("SIGNING_KEY")))
 }
 
 func GetHash(pwd []byte) string {

@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"strings"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 	"gshop/module/users/userhandler"
@@ -11,10 +13,11 @@ import (
 
 func SetCurrentUser(sc *sdk.ServiceContext) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		user := c.Locals("user").(*jwt.Token)
-		claims := user.Claims.(jwt.MapClaims)
+		token := c.Locals("user").(*jwt.Token)
+		tokens := strings.Split(token.Raw, ".")
+		signature := tokens[len(tokens)-1]
+		claims := token.Claims.(jwt.MapClaims)
 		userId := uint32(claims["user_id"].(float64))
-		secretToken := claims["secret"].(string)
 
 		storage := userstorage.NewUserSQLStorage(sc.DB)
 		repo := userrepo.NewUserRepo(storage)
@@ -24,7 +27,7 @@ func SetCurrentUser(sc *sdk.ServiceContext) fiber.Handler {
 
 		hdl := userhandler.NewGetUserHdl(repo, tokenRepo)
 
-		currentUser, err := hdl.Response(c.Context(), userId, secretToken)
+		currentUser, err := hdl.Response(c.Context(), userId, signature)
 		if err != nil {
 			panic(err)
 		}
