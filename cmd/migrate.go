@@ -9,7 +9,7 @@ import (
 	"github.com/pressly/goose"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gshop/internal/config"
+	"gshop/config"
 )
 
 const dialect = "postgres"

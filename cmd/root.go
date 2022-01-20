@@ -3,9 +3,9 @@ package cmd
 import (
 	"log"
 
-	"gshop/internal/config"
-	"gshop/internal/gorm"
-	"gshop/internal/redix"
+	"gshop/config"
+	"gshop/infra/gorm"
+	"gshop/infra/redis"
 	"gshop/sdk"
 	"gshop/sdk/logger"
 
@@ -33,7 +33,7 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
-		rdb, err := redix.NewRedis()
+		rdb, err := redis.NewRedis()
 		if err != nil {
 			log.Fatalf("%s", err.Error())
 			return err
