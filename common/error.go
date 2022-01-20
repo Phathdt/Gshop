@@ -15,8 +15,9 @@ var (
 	ErrRedis = sdkcm.CustomError("ErrRedis", "Err redis")
 
 	//token
-	ErrCreateToken = sdkcm.CustomError("ErrCreateToken", "err create token")
-	ErrGetToken    = sdkcm.CustomError("ErrGetToken", "Token not found")
+	ErrCreateToken  = sdkcm.CustomError("ErrCreateToken", "err create token")
+	ErrGetToken     = sdkcm.CustomError("ErrGetToken", "Token not found")
+	ErrDeleteTokens = sdkcm.CustomError("ErrDeleteTokens", "err delete tokens")
 
 	//common
 	ErrRecordNotFound = sdkcm.CustomError("ErrRecordNotFound", "record not found")

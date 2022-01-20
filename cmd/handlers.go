@@ -71,6 +71,11 @@ func (s *server) Run() error {
 
 	authV1 := app.Group("/v1")
 	{
+		users := v1.Group("/users")
+		{
+			users.Delete("/logout", userfiber.Logout(s.SC))
+		}
+
 		carts := authV1.Group("/carts")
 		{
 			carts.Get("/my-cart", cartfiber.MyCart(s.SC))

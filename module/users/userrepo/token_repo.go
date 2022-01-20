@@ -11,10 +11,19 @@ import (
 type TokenStorage interface {
 	CreateToken(ctx context.Context, token string, userId uint32) error
 	GetToken(ctx context.Context, userId uint32, secretToken string) (string, error)
+	DeleteTokenUsers(ctx context.Context, userId uint32) error
 }
 
 type tokenRepo struct {
 	store TokenStorage
+}
+
+func (r *tokenRepo) DeleteTokenUsers(ctx context.Context, userId uint32) error {
+	if err := r.store.DeleteTokenUsers(ctx, userId); err != nil {
+		return sdkcm.ErrCustom(err, common.ErrDeleteTokens)
+	}
+
+	return nil
 }
 
 func (r *tokenRepo) GetToken(ctx context.Context, userId uint32, secretToken string) (string, error) {

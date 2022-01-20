@@ -15,6 +15,21 @@ type tokenStore struct {
 	client *redis.Client
 }
 
+func (s *tokenStore) DeleteTokenUsers(ctx context.Context, userId uint32) error {
+	regex := fmt.Sprintf("users/%d/tokens/*", userId)
+
+	keys, err := s.client.Keys(ctx, regex).Result()
+	if err != nil {
+		return sdkcm.ErrDB(err)
+	}
+
+	for _, key := range keys {
+		s.client.Del(ctx, key)
+	}
+
+	return nil
+}
+
 func (s *tokenStore) GetToken(ctx context.Context, userId uint32, secretToken string) (string, error) {
 	key := fmt.Sprintf("users/%d/tokens/%s", userId, secretToken)
 
