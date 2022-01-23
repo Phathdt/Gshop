@@ -2,7 +2,7 @@
 1. [X] Implement a Rest API with CRUD functionality.
 2. [X] Database: PostgreSQL.
 3. [X] Set up service with docker compose.
-4. [X] Authen with jwt
+4. [X] Authen with jwt, whitelist token
 5. [X] generate query with gorm
 6. [X] Private and public routes
 7. [X] Split logic into transport, handler, repo and storage
@@ -21,6 +21,7 @@
 - **Docker** + **Docker-Compose**: *Containerization, what else to say ...*
 - **Viper**: *Add robustness to configurations*
 - **Github Actions CI**: *Make sure we don't push trash code into the codebase*
+- **Redis**: *caching database*
 
 ## Booting Up
 
