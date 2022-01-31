@@ -9,6 +9,7 @@
 8. [X] API Document
 9. [X] Redis cache
 10. [ ] Unit test
+11. [X] Hot Reload with Air
 
 ## Technology Stack
 
@@ -22,6 +23,7 @@
 - **Viper**: *Add robustness to configurations*
 - **Github Actions CI**: *Make sure we don't push trash code into the codebase*
 - **Redis**: *caching database*
+- **Air**: *hot reload*
 
 ## Booting Up
 
@@ -50,6 +52,13 @@ make migrate-up
 
 # run app
 make run
+
+# or hot reload running with air
+# install air
+go get -u github.com/cosmtrek/air
+
+# run with air
+air
 
 # enjoy
 
