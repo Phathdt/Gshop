@@ -1,3 +1,6 @@
+include .env
+export
+
 .PHONY: migrate-up, migrate-down, run, build
 
 run:
