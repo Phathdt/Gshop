@@ -23,7 +23,7 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
-		logger.InitServLogger(true)
+		logger.New()
 
 		db, err := gorm.InitDb()
 

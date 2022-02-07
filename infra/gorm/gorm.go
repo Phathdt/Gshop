@@ -12,10 +12,21 @@ import (
 
 func initLogger() gormLogger.Interface {
 	var logLevel gormLogger.LogLevel
-	if viper.GetString("LOG_LEVEL") == "DEBUG" {
+	switch viper.GetString("LOG_LEVEL") {
+	case "INFO":
 		logLevel = gormLogger.Info
-	} else {
+	case "FATAL":
 		logLevel = gormLogger.Error
+	case "ERROR":
+		logLevel = gormLogger.Error
+	case "WARN":
+		logLevel = gormLogger.Warn
+	case "DEBUG":
+		logLevel = gormLogger.Info
+	case "PANIC":
+		logLevel = gormLogger.Error
+	default:
+		logLevel = gormLogger.Info
 	}
 
 	log := logrus.New()
