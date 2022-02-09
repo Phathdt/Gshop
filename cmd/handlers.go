@@ -5,12 +5,13 @@ import (
 
 	"gshop/module/carts/carttransport/cartfiber"
 	"gshop/module/products/producttransport/productfiber"
-	middleware2 "gshop/module/users/usertransport/middleware"
+	usrmdw "gshop/module/users/usertransport/middleware"
 	"gshop/module/users/usertransport/userfiber"
 	"gshop/sdk"
 	"gshop/sdk/httpserver/middleware"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	jwtware "github.com/gofiber/jwt/v2"
 	"github.com/spf13/viper"
@@ -37,6 +38,7 @@ func (s *server) Run() error {
 	app.Use(logger.New(logger.Config{
 		Format: `{"ip":${ip}, "timestamp":"${time}", "status":${status}, "latency":"${latency}", "method":"${method}", "path":"${path}"}` + "\n",
 	}))
+	app.Use(compress.New())
 
 	app.Use(middleware.Recover(s.SC))
 
@@ -67,7 +69,7 @@ func (s *server) Run() error {
 		SigningKey: []byte(viper.GetString("SIGNING_KEY")),
 	}))
 
-	app.Use(middleware2.SetCurrentUser(s.SC))
+	app.Use(usrmdw.SetCurrentUser(s.SC))
 
 	authV1 := app.Group("/v1")
 	{
