@@ -1,7 +1,7 @@
 include .env
 export
 
-.PHONY: migrate-up, migrate-down, run, build
+.PHONY: migrate-up, migrate-down, run, build, air
 
 run:
 	go run main.go $(args)
@@ -14,3 +14,6 @@ migrate-up:
 
 migrate-down:
 	go run main.go migrate down
+
+air:
+	./bin/air

@@ -55,10 +55,8 @@ make run
 
 # or hot reload running with air
 # install air
-go get -u github.com/cosmtrek/air
-
-# run with air
-air
+curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s
+make air
 
 # enjoy
 

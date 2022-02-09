@@ -27,3 +27,4 @@ gshop
 .env
 /.idea
 /tmp
+/bin
