@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"gshop/apps/web/server"
 	"gshop/internal/application/config"
 	"gshop/internal/application/services"
 )
@@ -19,9 +20,9 @@ func main() {
 		log.Fatalf("%s", err.Error())
 	}
 
-	server := NewServer(sc)
+	s := server.NewServer(sc)
 
-	if err = server.Run(); err != nil {
+	if err = s.Run(cfg); err != nil {
 		log.Fatalf("%s", err.Error())
 	}
 }

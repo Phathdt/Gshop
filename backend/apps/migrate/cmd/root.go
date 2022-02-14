@@ -9,6 +9,8 @@ import (
 	"github.com/pressly/goose"
 	"github.com/spf13/cobra"
 	"gshop/internal/application/config"
+
+	_ "github.com/lib/pq"
 )
 
 const dialect = "postgres"
@@ -18,7 +20,7 @@ var (
 	dir   = flags.String("dir", "./migrations", "directory with migration files")
 )
 
-// rootCmd represents the migarte command
+// rootCmd represents the migrate command
 var rootCmd = &cobra.Command{
 	Use:   "migrate",
 	Short: "Migrate database with goose",

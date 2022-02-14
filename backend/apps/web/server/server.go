@@ -1,12 +1,13 @@
-package main
+package server
 
 import (
 	"fmt"
 
+	"gshop/internal/application/config"
 	"gshop/internal/application/services"
 	"gshop/internal/module/carts/carttransport/cartfiber"
 	"gshop/internal/module/products/producttransport/productfiber"
-	httpmiddleware "gshop/internal/module/users/usertransport/middleware"
+	mdw "gshop/internal/module/users/usertransport/middleware"
 	"gshop/internal/module/users/usertransport/userfiber"
 	"gshop/pkg/httpserver/middleware"
 
@@ -33,7 +34,7 @@ func ping() fiber.Handler {
 	}
 }
 
-func (s *server) Run() error {
+func (s *server) Run(cfg *config.Config) error {
 	app := fiber.New()
 	app.Use(logger.New(logger.Config{
 		Format: `{"ip":${ip}, "timestamp":"${time}", "status":${status}, "latency":"${latency}", "method":"${method}", "path":"${path}"}` + "\n",
@@ -69,7 +70,7 @@ func (s *server) Run() error {
 		SigningKey: []byte(viper.GetString("SIGNING_KEY")),
 	}))
 
-	app.Use(httpmiddleware.SetCurrentUser(s.SC))
+	app.Use(mdw.SetCurrentUser(s.SC))
 
 	authV1 := app.Group("/v1")
 	{
@@ -86,7 +87,7 @@ func (s *server) Run() error {
 		}
 	}
 
-	addr := fmt.Sprintf(":%d", viper.GetInt("PORT"))
+	addr := fmt.Sprintf(":%d", cfg.HTTP.Port)
 	if err := app.Listen(addr); err != nil {
 		return err
 	}
