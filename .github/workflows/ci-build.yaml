@@ -18,6 +18,8 @@ jobs:
           go-version: 1.17
 
       - uses: actions/checkout@v2
+        with:
+          path: backend
 
       - name: Pull dependencies
         run: go mod download
