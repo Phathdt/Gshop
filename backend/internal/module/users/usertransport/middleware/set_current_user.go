@@ -3,12 +3,13 @@ package middleware
 import (
 	"strings"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v4"
 	"gshop/internal/application/services"
 	"gshop/internal/module/users/userhandler"
-	userrepo2 "gshop/internal/module/users/userrepo"
-	userstorage2 "gshop/internal/module/users/userstorage"
+	"gshop/internal/module/users/userrepo"
+	"gshop/internal/module/users/userstorage"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 func SetCurrentUser(sc *services.ServiceContext) fiber.Handler {
@@ -19,11 +20,11 @@ func SetCurrentUser(sc *services.ServiceContext) fiber.Handler {
 		claims := token.Claims.(jwt.MapClaims)
 		userId := uint32(claims["user_id"].(float64))
 
-		storage := userstorage2.NewUserSQLStorage(sc.DB)
-		repo := userrepo2.NewUserRepo(storage)
+		storage := userstorage.NewUserSQLStorage(sc.DB)
+		repo := userrepo.NewUserRepo(storage)
 
-		rdb := userstorage2.NewTokenStore(sc.RdClient)
-		tokenRepo := userrepo2.NewTokenRepo(rdb)
+		rdb := userstorage.NewTokenStore(sc.RdClient)
+		tokenRepo := userrepo.NewTokenRepo(rdb)
 
 		hdl := userhandler.NewGetUserHdl(repo, tokenRepo)
 

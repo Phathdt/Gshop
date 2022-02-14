@@ -6,21 +6,22 @@ import (
 
 	"github.com/dgrijalva/jwt-go/v4"
 	"github.com/gofiber/fiber/v2"
-	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
+	"gshop/internal/application/config"
 	"gshop/internal/module/users/usermodel"
 )
 
 func GenerateJWT(user *usermodel.User) (string, error) {
+	cfg := config.Config
 	claims := jwt.MapClaims{
 		"user_id":  user.ID,
 		"username": user.Username,
-		"exp":      time.Now().Add(viper.GetDuration("TOKEN_TTL") * time.Second).Unix(),
+		"exp":      time.Now().Add(time.Second * time.Duration(cfg.JWT.TokenTTL)).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return token.SignedString([]byte(viper.GetString("SIGNING_KEY")))
+	return token.SignedString([]byte(cfg.JWT.SigningKey))
 }
 
 func GetHash(pwd []byte) string {

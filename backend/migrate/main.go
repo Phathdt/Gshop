@@ -1,6 +1,8 @@
 package main
 
-import "gshop/apps/migrate/cmd"
+import (
+	"gshop/migrate/cmd"
+)
 
 func main() {
 	cmd.Execute()

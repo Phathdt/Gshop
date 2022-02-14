@@ -47,7 +47,7 @@ var rootCmd = &cobra.Command{
 			return nil
 		}
 
-		cfg := config.FromEnv()
+		cfg := config.Config
 
 		dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=%s", cfg.POSTGRES.Host, cfg.POSTGRES.User, cfg.POSTGRES.Pass, cfg.POSTGRES.Database, cfg.POSTGRES.Port, cfg.POSTGRES.Sslmode)
 		db, err := sql.Open("postgres", dsn)

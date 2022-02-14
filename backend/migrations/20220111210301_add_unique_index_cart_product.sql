@@ -6,5 +6,5 @@ USING BTREE ("cart_id", "product_id");
 
 -- +goose Down
 -- +goose StatementBegin
-DROP INDEX "cart_product_unique_index";
+DROP INDEX "checkout"."cart_product_unique_index";
 -- +goose StatementEnd

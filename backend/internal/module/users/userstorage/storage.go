@@ -3,10 +3,11 @@ package userstorage
 import (
 	"context"
 
-	"gorm.io/gorm"
-	"gshop/common"
-	usermodel2 "gshop/internal/module/users/usermodel"
+	"gshop/internal/module/users/usermodel"
+	"gshop/pkg/common"
 	"gshop/pkg/sdkcm"
+
+	"gorm.io/gorm"
 )
 
 type userSQLStorage struct {
@@ -17,7 +18,7 @@ func NewUserSQLStorage(db *gorm.DB) *userSQLStorage {
 	return &userSQLStorage{db: db}
 }
 
-func (s *userSQLStorage) CreateUser(ctx context.Context, data *usermodel2.UserCreate) (uint32, error) {
+func (s *userSQLStorage) CreateUser(ctx context.Context, data *usermodel.UserCreate) (uint32, error) {
 	data.Password = common.GetHash([]byte(data.Password))
 
 	if err := s.db.Create(&data).Error; err != nil {
@@ -27,8 +28,8 @@ func (s *userSQLStorage) CreateUser(ctx context.Context, data *usermodel2.UserCr
 	return data.ID, nil
 }
 
-func (s *userSQLStorage) GetUserByCondition(ctx context.Context, cond map[string]interface{}) (*usermodel2.User, error) {
-	var data usermodel2.User
+func (s *userSQLStorage) GetUserByCondition(ctx context.Context, cond map[string]interface{}) (*usermodel.User, error) {
+	var data usermodel.User
 
 	if err := s.db.Where(cond).First(&data).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {

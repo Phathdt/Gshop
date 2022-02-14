@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
-	"github.com/spf13/viper"
+	"gshop/internal/application/config"
 	"gshop/pkg/sdkcm"
 )
 
@@ -49,12 +49,13 @@ func (s *tokenStore) GetToken(ctx context.Context, userId uint32, secretToken st
 }
 
 func (s *tokenStore) CreateToken(ctx context.Context, token string, userId uint32) error {
+	cfg := config.Config
 	tokens := strings.Split(token, ".")
 	signature := tokens[len(tokens)-1]
 
 	key := fmt.Sprintf("users/%d/tokens/%s", userId, signature)
 
-	if err := s.client.Set(ctx, key, 1, time.Second*viper.GetDuration("TOKEN_TTL")).Err(); err != nil {
+	if err := s.client.Set(ctx, key, 1, time.Second*time.Duration(cfg.JWT.TokenTTL)).Err(); err != nil {
 		return sdkcm.ErrDB(err)
 	}
 

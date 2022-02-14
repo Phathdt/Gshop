@@ -8,7 +8,8 @@ import (
 	"gshop/internal/application/config"
 )
 
-func NewRedisService(ctx context.Context, cfg *config.Config) (*redis.Client, error) {
+func NewRedisService(ctx context.Context) (*redis.Client, error) {
+	cfg := config.Config
 	rdb := redis.NewClient(&redis.Options{
 		Addr: cfg.REDIS.Host,
 		DB:   cfg.REDIS.DB,

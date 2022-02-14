@@ -3,15 +3,15 @@ package userhandler
 import (
 	"context"
 
-	usermodel2 "gshop/internal/module/users/usermodel"
+	"gshop/internal/module/users/usermodel"
 )
 
 type CreateUserRepo interface {
-	CreateUser(ctx context.Context, data *usermodel2.UserCreate) (*usermodel2.User, error)
+	CreateUser(ctx context.Context, data *usermodel.UserCreate) (*usermodel.User, error)
 }
 
 type CreateTokenRepo interface {
-	CreateToken(ctx context.Context, user *usermodel2.User) (string, error)
+	CreateToken(ctx context.Context, user *usermodel.User) (string, error)
 }
 
 type createUserHdl struct {
@@ -23,7 +23,7 @@ func NewCreateUserHdl(repo CreateUserRepo, tokenRepo CreateTokenRepo) *createUse
 	return &createUserHdl{repo: repo, tokenRepo: tokenRepo}
 }
 
-func (h *createUserHdl) Response(ctx context.Context, data *usermodel2.UserCreate) (string, error) {
+func (h *createUserHdl) Response(ctx context.Context, data *usermodel.UserCreate) (string, error) {
 	user, err := h.repo.CreateUser(ctx, data)
 
 	if err != nil {

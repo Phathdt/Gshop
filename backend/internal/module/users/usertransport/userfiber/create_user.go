@@ -3,14 +3,15 @@ package userfiber
 import (
 	"net/http"
 
-	"github.com/gofiber/fiber/v2"
-	"gshop/common"
 	"gshop/internal/application/services"
 	"gshop/internal/module/users/userhandler"
 	"gshop/internal/module/users/usermodel"
-	userrepo2 "gshop/internal/module/users/userrepo"
-	userstorage2 "gshop/internal/module/users/userstorage"
+	"gshop/internal/module/users/userrepo"
+	"gshop/internal/module/users/userstorage"
+	"gshop/pkg/common"
 	"gshop/pkg/sdkcm"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func CreateUser(sc *services.ServiceContext) fiber.Handler {
@@ -24,11 +25,11 @@ func CreateUser(sc *services.ServiceContext) fiber.Handler {
 			panic(err)
 		}
 
-		storage := userstorage2.NewUserSQLStorage(sc.DB)
-		repo := userrepo2.NewUserRepo(storage)
+		storage := userstorage.NewUserSQLStorage(sc.DB)
+		repo := userrepo.NewUserRepo(storage)
 
-		rdb := userstorage2.NewTokenStore(sc.RdClient)
-		tokenRepo := userrepo2.NewTokenRepo(rdb)
+		rdb := userstorage.NewTokenStore(sc.RdClient)
+		tokenRepo := userrepo.NewTokenRepo(rdb)
 
 		hdl := userhandler.NewCreateUserHdl(repo, tokenRepo)
 

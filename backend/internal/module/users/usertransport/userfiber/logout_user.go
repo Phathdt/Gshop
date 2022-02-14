@@ -4,11 +4,11 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
-	"gshop/common"
 	"gshop/internal/application/services"
 	"gshop/internal/module/users/userhandler"
 	"gshop/internal/module/users/userrepo"
 	"gshop/internal/module/users/userstorage"
+	"gshop/pkg/common"
 	"gshop/pkg/sdkcm"
 )
 

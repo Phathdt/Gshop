@@ -1,7 +1,6 @@
 package services
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"time"
@@ -14,10 +13,12 @@ import (
 	gormLogger "gorm.io/gorm/logger"
 )
 
-func newGormService(ctx context.Context, cfg *config.Config) (*gorm.DB, error) {
+func newGormService() (*gorm.DB, error) {
+	cfg := config.Config
+
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=%s", cfg.POSTGRES.Host, cfg.POSTGRES.User, cfg.POSTGRES.Pass, cfg.POSTGRES.Database, cfg.POSTGRES.Port, cfg.POSTGRES.Sslmode)
 
-	gLogger := initLogger(cfg)
+	gLogger := initLogger(cfg.App.LogLevel)
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage
@@ -38,10 +39,10 @@ func newGormService(ctx context.Context, cfg *config.Config) (*gorm.DB, error) {
 	return db, nil
 }
 
-func initLogger(cfg *config.Config) gormLogger.Interface {
+func initLogger(level string) gormLogger.Interface {
 	var logLevel gormLogger.LogLevel
 
-	switch cfg.App.LogLevel {
+	switch level {
 	case "INFO":
 		logLevel = gormLogger.Info
 	case "FATAL":

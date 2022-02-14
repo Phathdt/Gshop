@@ -16,15 +16,17 @@ type ServiceContext struct {
 	Logger   *logrus.Logger
 }
 
-func NewServiceContext(ctx context.Context, cfg *config.Config) (*ServiceContext, error) {
+func NewServiceContext(ctx context.Context) (*ServiceContext, error) {
+	cfg := config.Config
+
 	l := logger.New(cfg.App.LogLevel)
 
-	db, err := newGormService(ctx, cfg)
+	db, err := newGormService()
 	if err != nil {
 		return nil, err
 	}
 
-	rdClient, err := NewRedisService(ctx, cfg)
+	rdClient, err := NewRedisService(ctx)
 	if err != nil {
 		return nil, err
 	}

@@ -3,8 +3,8 @@ package cartrepo
 import (
 	"context"
 
-	"gshop/common"
 	"gshop/internal/module/carts/cartmodel"
+	"gshop/pkg/common"
 	"gshop/pkg/sdkcm"
 )
 

@@ -3,22 +3,23 @@ package userrepo
 import (
 	"context"
 
-	"golang.org/x/crypto/bcrypt"
-	"gshop/common"
-	usermodel2 "gshop/internal/module/users/usermodel"
+	"gshop/internal/module/users/usermodel"
+	"gshop/pkg/common"
 	"gshop/pkg/sdkcm"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserStorage interface {
-	CreateUser(ctx context.Context, data *usermodel2.UserCreate) (uint32, error)
-	GetUserByCondition(ctx context.Context, cond map[string]interface{}) (*usermodel2.User, error)
+	CreateUser(ctx context.Context, data *usermodel.UserCreate) (uint32, error)
+	GetUserByCondition(ctx context.Context, cond map[string]interface{}) (*usermodel.User, error)
 }
 
 type userRepo struct {
 	store UserStorage
 }
 
-func (r *userRepo) GetUser(ctx context.Context, id uint32) (*usermodel2.User, error) {
+func (r *userRepo) GetUser(ctx context.Context, id uint32) (*usermodel.User, error) {
 	user, err := r.store.GetUserByCondition(ctx, map[string]interface{}{"id": id})
 	if err != nil {
 		return nil, sdkcm.ErrCustom(err, common.ErrFindUser)
@@ -27,7 +28,7 @@ func (r *userRepo) GetUser(ctx context.Context, id uint32) (*usermodel2.User, er
 	return user, nil
 }
 
-func (r *userRepo) CreateUser(ctx context.Context, data *usermodel2.UserCreate) (*usermodel2.User, error) {
+func (r *userRepo) CreateUser(ctx context.Context, data *usermodel.UserCreate) (*usermodel.User, error) {
 	if user, _ := r.store.GetUserByCondition(ctx, map[string]interface{}{"username": data.Username}); user != nil {
 		return nil, sdkcm.ErrCustom(nil, common.ErrExistedUser)
 	}
@@ -45,7 +46,7 @@ func (r *userRepo) CreateUser(ctx context.Context, data *usermodel2.UserCreate) 
 	return user, nil
 }
 
-func (r *userRepo) LoginUser(ctx context.Context, data *usermodel2.UserLogin) (*usermodel2.User, error) {
+func (r *userRepo) LoginUser(ctx context.Context, data *usermodel.UserLogin) (*usermodel.User, error) {
 	user, err := r.store.GetUserByCondition(ctx, map[string]interface{}{"username": data.Username})
 	if err != nil {
 		return nil, sdkcm.ErrCustom(err, common.ErrRecordNotFound)

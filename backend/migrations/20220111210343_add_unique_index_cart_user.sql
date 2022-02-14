@@ -5,5 +5,5 @@ CREATE UNIQUE INDEX "user_cart_index" ON "checkout"."carts" USING BTREE ("user_i
 
 -- +goose Down
 -- +goose StatementBegin
-DROP INDEX "user_cart_index";
+DROP INDEX "checkout"."user_cart_index";
 -- +goose StatementEnd

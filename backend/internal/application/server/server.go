@@ -15,7 +15,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	jwtware "github.com/gofiber/jwt/v2"
-	"github.com/spf13/viper"
 )
 
 type server struct {
@@ -34,7 +33,9 @@ func ping() fiber.Handler {
 	}
 }
 
-func (s *server) Run(cfg *config.Config) error {
+func (s *server) Run() error {
+	cfg := config.Config
+
 	app := fiber.New()
 	app.Use(logger.New(logger.Config{
 		Format: `{"ip":${ip}, "timestamp":"${time}", "status":${status}, "latency":"${latency}", "method":"${method}", "path":"${path}"}` + "\n",
@@ -67,7 +68,7 @@ func (s *server) Run(cfg *config.Config) error {
 				"message": "Unauthorized",
 			})
 		},
-		SigningKey: []byte(viper.GetString("SIGNING_KEY")),
+		SigningKey: []byte(cfg.JWT.SigningKey),
 	}))
 
 	app.Use(mdw.SetCurrentUser(s.SC))

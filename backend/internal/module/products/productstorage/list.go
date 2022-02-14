@@ -3,14 +3,14 @@ package productstorage
 import (
 	"context"
 
-	productmodel2 "gshop/internal/module/products/productmodel"
+	"gshop/internal/module/products/productmodel"
 	"gshop/pkg/sdkcm"
 )
 
-func (s *productSQLStorage) ListProduct(ctx context.Context, filter *productmodel2.ListFilter, paging *sdkcm.Paging, moreKeys ...string) ([]productmodel2.Product, error) {
-	var data []productmodel2.Product
+func (s *productSQLStorage) ListProduct(ctx context.Context, filter *productmodel.ListFilter, paging *sdkcm.Paging, moreKeys ...string) ([]productmodel.Product, error) {
+	var data []productmodel.Product
 
-	db := s.db.Table(productmodel2.Product{}.TableName())
+	db := s.db.Table(productmodel.Product{}.TableName())
 
 	if f := filter; f != nil {
 		if v := f.CategoryId; v != nil {

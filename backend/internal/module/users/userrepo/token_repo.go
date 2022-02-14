@@ -3,8 +3,8 @@ package userrepo
 import (
 	"context"
 
-	"gshop/common"
 	"gshop/internal/module/users/usermodel"
+	"gshop/pkg/common"
 	"gshop/pkg/sdkcm"
 )
 
