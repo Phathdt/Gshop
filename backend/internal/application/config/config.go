@@ -9,7 +9,6 @@ var Config = FromEnv()
 type config struct {
 	App struct {
 		Environment string `env:"APP_ENV"              envDefault:"dev"`
-		Secret      string `env:"AUTH_SECRET"          envDefault:"secret"`
 		LogLevel    string `env:"LOG_LEVEL"            envDefault:"INFO"`
 	}
 	HTTP struct {

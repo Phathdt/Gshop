@@ -1,3 +1,7 @@
+/*
+Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+
+*/
 package cmd
 
 import (
@@ -6,9 +10,10 @@ import (
 	"fmt"
 	"log"
 
+	"gshop/internal/application/config"
+
 	"github.com/pressly/goose"
 	"github.com/spf13/cobra"
-	"gshop/internal/application/config"
 
 	_ "github.com/lib/pq"
 )
@@ -20,8 +25,8 @@ var (
 	dir   = flags.String("dir", "./migrations", "directory with migration files")
 )
 
-// rootCmd represents the migrate command
-var rootCmd = &cobra.Command{
+// migrateCmd represents the migrate command
+var migrateCmd = &cobra.Command{
 	Use:   "migrate",
 	Short: "Migrate database with goose",
 	RunE: func(cmd *cobra.Command, args []string) error {
@@ -100,8 +105,6 @@ Commands:
 `
 )
 
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		log.Fatal(err)
-	}
+func init() {
+	rootCmd.AddCommand(migrateCmd)
 }

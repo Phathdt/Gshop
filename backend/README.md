@@ -20,7 +20,7 @@
 - **JWT Token**: *Also implemented to demonstrate the decoupility*
 - **Goose**: *Efficient schema generating, up/down migrating*
 - **Docker** + **Docker-Compose**: *Containerization, what else to say ...*
-- **Viper**: *Add robustness to configurations*
+- **Env**: *Add robustness to configurations*
 - **Github Actions CI**: *Make sure we don't push trash code into the codebase*
 - **Redis**: *caching database*
 - **Air**: *hot reload*
@@ -42,31 +42,23 @@ cp .env.sample .env
 
 # insert some data in env like database url, debug level
 
-source .env
-
-# install migrate
-brew install golang-migrate
-
 # migrate
-make migrate-up
+make migrate args="up"
 
 # run app
-make run
+make server
 
 # or hot reload running with air
 # install air
 curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s
 make air
-
-# enjoy
-
 ```
 
 ## Migration
 
 **Generate migration**
 ```bash
-make run args="migrate create xxx sql"
+make migrate args="create create_xyz sql"
 ```
 
 ## Todos

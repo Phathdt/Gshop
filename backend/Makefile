@@ -12,7 +12,7 @@ server: ## run server
 	go run main.go
 
 migrate: ## migrate database
-	go run migrate/main.go $(args)
+	go run main.go migrate $(args)
 
 air: ## hot reload app
 	~/go/bin/air .

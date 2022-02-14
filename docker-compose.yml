@@ -13,14 +13,26 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+  redis:
+    image: bitnami/redis:6.2.6
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
   backend:
     build: backend
     environment:
-      PORT: 3000
-      SIGNING_KEY: ANOTHER_SIGNING_KEY
-      TOKEN_TTL: 86400
-      DATABASE_URL: postgresql://postgres:123123123@db:5432/gshop?sslmode=disable
+      APP_ENV: dev
       LOG_LEVEL: DEBUG
+      HTTP_PORT: 3000
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASS: 123123123
+      POSTGRES_DATABASE: gshop
+      POSTGRES_SSLMODE: disable
+      REDIS_HOST: redis:6379
+      REDIS_DB: 0
+      TOKEN_TTL: 86400
+      SIGNING_KEY: randomestring
     depends_on:
       db:
         condition: service_healthy
