@@ -14,7 +14,7 @@ services:
       timeout: 5s
       retries: 5
   backend:
-    build: .
+    build: backend
     environment:
       PORT: 3000
       SIGNING_KEY: ANOTHER_SIGNING_KEY
