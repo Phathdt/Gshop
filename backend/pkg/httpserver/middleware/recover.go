@@ -5,14 +5,14 @@ import (
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
-	"gshop/pkg"
+	"gshop/internal/application/services"
 	"gshop/pkg/sdkcm"
 
 	"github.com/gofiber/fiber/v2"
 	log "github.com/sirupsen/logrus"
 )
 
-func Recover(sc *pkg.ServiceContext) fiber.Handler {
+func Recover(sc *services.ServiceContext) fiber.Handler {
 	// Return new handler
 	return func(c *fiber.Ctx) (err error) {
 		defer func() {

@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
-	"gshop/internal/users/usermodel"
+	"gshop/internal/module/users/usermodel"
 )
 
 func GenerateJWT(user *usermodel.User) (string, error) {

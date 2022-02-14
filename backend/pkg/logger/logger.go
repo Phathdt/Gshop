@@ -3,33 +3,36 @@ package logger
 import (
 	"os"
 
-	log "github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
+	"github.com/sirupsen/logrus"
 )
 
-func New() {
-	log.SetFormatter(&log.JSONFormatter{})
+func New(logLevel string) *logrus.Logger {
+	log := logrus.New()
+
+	log.SetFormatter(&logrus.JSONFormatter{})
 
 	log.SetOutput(os.Stdout)
 
-	var level log.Level
+	var level logrus.Level
 
-	switch viper.GetString("LOG_LEVEL") {
+	switch logLevel {
 	case "INFO":
-		level = log.InfoLevel
+		level = logrus.InfoLevel
 	case "FATAL":
-		level = log.FatalLevel
+		level = logrus.FatalLevel
 	case "ERROR":
-		level = log.ErrorLevel
+		level = logrus.ErrorLevel
 	case "WARN":
-		level = log.WarnLevel
+		level = logrus.WarnLevel
 	case "DEBUG":
-		level = log.DebugLevel
+		level = logrus.DebugLevel
 	case "PANIC":
-		level = log.PanicLevel
+		level = logrus.PanicLevel
 	default:
-		level = log.InfoLevel
+		level = logrus.InfoLevel
 	}
 
 	log.SetLevel(level)
+
+	return log
 }
