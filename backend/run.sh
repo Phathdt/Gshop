@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "Start migrate..."
-./app migrate up
+./gshop migrate up
 
 echo "Start server..."
-./app
+./gshop

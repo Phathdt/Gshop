@@ -5,7 +5,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
-RUN go build -ldflags '-w -s' -a -o app ./main.go
+RUN go build -ldflags '-w -s' -a -o gshop ./main.go
 
 # Deployment environment
 # ----------------------
@@ -15,7 +15,8 @@ RUN update-ca-certificates
 WORKDIR /app
 RUN chown nobody:nobody /app
 USER nobody:nobody
-COPY --from=builder --chown=nobody:nobody ./app /app/
-COPY --from=builder --chown=nobody:nobody /app/run.sh .
+COPY --from=builder --chown=nobody:nobody ./app/gshop /app/
+COPY --from=builder --chown=nobody:nobody ./app/migrations /app/migrations/
+COPY --from=builder --chown=nobody:nobody ./app/run.sh .
 
 ENTRYPOINT sh run.sh
