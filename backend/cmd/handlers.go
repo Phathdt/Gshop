@@ -3,12 +3,12 @@ package cmd
 import (
 	"fmt"
 
-	"gshop/module/carts/carttransport/cartfiber"
-	"gshop/module/products/producttransport/productfiber"
-	usrmdw "gshop/module/users/usertransport/middleware"
-	"gshop/module/users/usertransport/userfiber"
-	"gshop/sdk"
-	"gshop/sdk/httpserver/middleware"
+	"gshop/internal/carts/carttransport/cartfiber"
+	"gshop/internal/products/producttransport/productfiber"
+	usrmdw "gshop/internal/users/usertransport/middleware"
+	"gshop/internal/users/usertransport/userfiber"
+	"gshop/pkg"
+	"gshop/pkg/httpserver/middleware"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -18,10 +18,10 @@ import (
 )
 
 type server struct {
-	SC *sdk.ServiceContext
+	SC *pkg.ServiceContext
 }
 
-func NewServer(sc *sdk.ServiceContext) *server {
+func NewServer(sc *pkg.ServiceContext) *server {
 	return &server{SC: sc}
 }
 

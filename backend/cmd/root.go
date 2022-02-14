@@ -4,10 +4,10 @@ import (
 	"log"
 
 	"gshop/config"
-	"gshop/infra/gorm"
-	"gshop/infra/redis"
-	"gshop/sdk"
-	"gshop/sdk/logger"
+	"gshop/pkg"
+	"gshop/pkg/gorm"
+	"gshop/pkg/logger"
+	"gshop/pkg/redis"
 
 	_ "github.com/lib/pq"
 	"github.com/spf13/cobra"
@@ -39,7 +39,7 @@ var rootCmd = &cobra.Command{
 			return err
 		}
 
-		sc := sdk.New(db, rdb)
+		sc := pkg.New(db, rdb)
 
 		server := NewServer(sc)
 

@@ -1,7 +1,7 @@
 package common
 
 import (
-	"gshop/sdk/sdkcm"
+	"gshop/pkg/sdkcm"
 )
 
 var (
