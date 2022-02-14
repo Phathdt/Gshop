@@ -3,8 +3,13 @@ name: ci-build
 on:
   push:
     branches: [master]
+    paths:
+      - backend/**
   pull_request:
     branches: [master]
+    paths:
+      - backend/**
+    types: [closed]
 
 jobs:
   build:
@@ -17,12 +22,12 @@ jobs:
         with:
           go-version: 1.17
 
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+
       - name: Pull dependencies
-        run: |
-          cd backend
-          go mod download
+        working-directory: ./backend
+        run: go mod download
 
       - name: Build
+        working-directory: ./backend
         run: go build
