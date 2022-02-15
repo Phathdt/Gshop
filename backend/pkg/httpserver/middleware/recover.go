@@ -5,18 +5,17 @@ import (
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
-	"gshop/internal/application/services"
+	"github.com/sirupsen/logrus"
 	"gshop/pkg/sdkcm"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func Recover(sc *services.ServiceContext) fiber.Handler {
+func Recover(logger *logrus.Logger) fiber.Handler {
 	// Return new handler
 	return func(c *fiber.Ctx) (err error) {
 		defer func() {
 			if err := recover(); err != nil {
-				logger := sc.Logger
 				if appErr, ok := err.(sdkcm.AppError); ok {
 					appErr.RootCause = appErr.RootError()
 					logger.Error(appErr.RootCause)

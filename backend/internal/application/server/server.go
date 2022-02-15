@@ -42,7 +42,7 @@ func (s *server) Run() error {
 	}))
 	app.Use(compress.New())
 
-	app.Use(middleware.Recover(s.SC))
+	app.Use(middleware.Recover(s.SC.Logger))
 
 	app.Get("/", ping())
 	app.Get("/ping", ping())
