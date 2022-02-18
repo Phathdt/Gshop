@@ -8,7 +8,7 @@
 7. [X] Split logic into transport, handler, repo and storage
 8. [X] API Document
 9. [X] Redis cache
-10. [ ] Unit test
+10. [X] Unit test
 11. [X] Hot Reload with Air
 
 ## Technology Stack
@@ -29,6 +29,8 @@
 
 **Docker**
 ```bash
+cp .env.sample .env
+
 docker-compose build
 
 docker-compose up
@@ -38,8 +40,6 @@ docker-compose up
 
 **Local**
 ```bash
-cp .env.sample .env
-
 # insert some data in env like database url, debug level
 
 # migrate
@@ -60,6 +60,27 @@ make air
 ```bash
 make migrate args="create create_xyz sql"
 ```
+
+## Testing
+
+Lib: https://github.com/smartystreets/goconvey
+
+Test case format
+```go
+// Only pass t into top-level Convey calls
+Convey("Given ...", t, func() {
+  ...
+
+  Convey("When ...", func() {
+    ...
+
+    Convey("Then ...", func() {
+      ...
+    })
+  })
+})
+```
+
 
 ## Todos
 - add manifest K8s
