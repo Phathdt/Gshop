@@ -27,6 +27,82 @@
 
 ## Booting Up
 
+**Project Structure**
+
+```bash
+.
+├── README.md
+├── backend
+│   ├── Makefile
+│   ├── cmd
+│   │   ├── command # chay trong terminal
+│   │   │   └── main.go
+│   │   ├── migrate # migrate db
+│   │   │   ├── Dockerfile
+│   │   │   ├── main.go
+│   │   │   └── run.sh
+│   │   └── server # server api
+│   │       ├── Dockerfile
+│   │       ├── internal # rieng cua app sv api thoi
+│   │       │   ├── middleware
+│   │       │   └── server
+│   │       ├── main.go
+│   │       └── run.sh
+│   ├── docs.yaml # file open api
+│   ├── go.mod # deps
+│   ├── go.sum # deps lock
+│   ├── integration # client tuong tac voi ben ngoai, vd lazada, shopee, ...
+│   ├── main_test.go
+│   ├── migrations # folder migrations
+│   ├── module
+│   │   └── users # module user
+│   │       ├── userhandler # handler
+│   │       │   ├── create_user.go
+│   │       │   ├── get_user.go
+│   │       │   ├── login_user.go
+│   │       │   └── logout_user.go
+│   │       ├── usermodel #model
+│   │       │   ├── user.go
+│   │       │   ├── user_create.go
+│   │       │   └── user_login.go
+│   │       ├── userrepo #repo
+│   │       │   ├── repo.go
+│   │       │   └── token_repo.go
+│   │       ├── userstorage # tuong tac voi db
+│   │       │   ├── storage.go
+│   │       │   └── token.go
+│   │       └── usertransport #  tầng transport
+│   │           └── userfiber # fiber transport, nếu có socket thì user socket, usergprc
+│   ├── pkg # chứa những package xài chung, common
+│   │   ├── common
+│   │   ├── config
+│   │   ├── httpserver
+│   │   ├── logger
+│   │   └── sdkcm
+│   ├── service # nếu logic phức tạp thì để trong này, vd call api order của lazada -> order service, trong đó sẽ gọi thằng integration/lazada chẳng hạn
+│   ├── svcctx
+├── docker-compose.yml
+└── nginx
+    ├── Dockerfile
+    └── nginx.conf
+```
+
+**Viết 1 api mới** 
+- đầu tiên suy nghĩ về đó là domain/module mới hay gì, nếu là mới thì tạo trong module 
+- suy nghĩ có những field gì cần chứa -> tạo migration
+- xong viết tầng model của module đó, vd usermodel 
+- từ đây có 2 đường là bottom down hoặc bottom up
+
+*bottom down*
+- viết tầng handler, có interface gọi đến tầng model 
+- viết tầng model + interface cho nó, implement interface vừa viết ở transport 
+- viết tầng storage, implement interface ở tầng repo, tương tác với db qua GORM hoặc tự viết raw sql 
+- tạo endpoint ở server.go, xong trong transport -> xyzfiber tạo 1 file chứa code transport, ở đây call đến thằng handler, cung cấp đủ arg cho nó 
+- nếu có cache thì thêm con redis repo với redis storage vào, default là sql ( postgres ) 
+
+*bottom up* 
+- ngược lại, viết từ storage lên repo, handler và transport 
+
 **Docker**
 ```bash
 cp .env.sample .env
