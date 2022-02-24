@@ -80,7 +80,7 @@
 │   │   ├── logger
 │   │   └── sdkcm
 │   ├── service # nếu logic phức tạp thì để trong này, vd call api order của lazada -> order service, trong đó sẽ gọi thằng integration/lazada chẳng hạn
-│   ├── svcctx
+│   ├── svcctx # chứa những service cần connect cho app, vd postgres, redis, nats, ... 
 ├── docker-compose.yml
 └── nginx
     ├── Dockerfile
@@ -127,7 +127,7 @@ make server
 # or hot reload running with air
 # install air
 curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s
-make air
+make server-dev
 ```
 
 ## Migration
@@ -135,6 +135,8 @@ make air
 **Generate migration**
 ```bash
 make migrate args="create create_xyz sql"
+make migrate args="up"
+make migrate args="down"
 ```
 
 ## Testing
