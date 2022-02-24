@@ -7,8 +7,8 @@ import (
 	"github.com/dgrijalva/jwt-go/v4"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
-	"gshop/internal/application/config"
-	"gshop/internal/module/users/usermodel"
+	"gshop/module/users/usermodel"
+	"gshop/pkg/config"
 )
 
 func GenerateJWT(user *usermodel.User) (string, error) {

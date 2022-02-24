@@ -17,8 +17,25 @@ services:
     image: bitnami/redis:6.2.6
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-  backend:
-    build: backend
+
+  migrate:
+    build:
+      context: ./backend
+      dockerfile: ./cmd/migrate/Dockerfile
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASS: 123123123
+      POSTGRES_DATABASE: gshop
+      POSTGRES_SSLMODE: disable
+    depends_on:
+      db:
+        condition: service_healthy
+  server:
+    build:
+      context: ./backend
+      dockerfile: ./cmd/server/Dockerfile
     environment:
       APP_ENV: dev
       LOG_LEVEL: DEBUG
@@ -38,3 +55,10 @@ services:
         condition: service_healthy
     ports:
       - 3000:3000
+  nginx:
+    build: nginx
+    ports:
+      - 18080:80
+    depends_on:
+      - server
+      - frontend
